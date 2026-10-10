@@ -79,7 +79,7 @@
   <div style="text-align:center; z-index:2">
     <canvas id="logo"></canvas>
     <div id="sub" class="px">OPEN WORLD DRIVING</div>
-    <div id="tag" class="px">NO LIMITS. CLIMB THE MOUNTAIN. FIND THE SUMMIT.</div>
+    <div id="tag" class="px">NO LIMITS. CROSS THE RANGE. CLIMB THE MOUNTAIN.</div>
   </div>
   <div id="how" class="panel hidden">
     <h3>CONTROLS</h3>
@@ -87,7 +87,7 @@
     <kbd>SPACE</kbd> HANDBRAKE: DRIFT<br>
     <kbd>R</kbd> UNSTICK &nbsp; <kbd>G</kbd> BACK TO START<br>
     <kbd>ESC</kbd> PAUSE &nbsp; <kbd>P</kbd> PIXEL SIZE &nbsp; <kbd>M</kbd> SOUND<br><br>
-    THE WORLD NEVER ENDS. A HUGE MOUNTAIN SITS TO THE WEST: FOLLOW THE GRAVEL ROAD UP, OR LOOK FOR THE BEAM OF LIGHT.
+    THE WORLD NEVER ENDS. MOUNTAINS ENCIRCLE THE START, LAKES ARE SCATTERED AROUND (YOU CAN DRIVE THROUGH WATER, SLOWLY), AND A HUGE MOUNTAIN SITS TO THE WEST: FOLLOW THE GRAVEL ROAD UP, OR LOOK FOR THE BEAM OF LIGHT.
     <div style="text-align:center;margin-top:calc(var(--u)*1.5)"><button class="btn" id="btnHowClose" tabindex="-1">GOT IT</button></div>
   </div>
   <div class="menuBox" style="z-index:2">
@@ -4105,6 +4105,10 @@ addEventListener('resize', resize);
    ===================================================================== */
 const CELL = 3, CS = 32, CHUNK = CELL * CS;            // a chunk = 32 x 32 cells = 96 m
 const ROAD_HALF = 7, TAU = Math.PI * 2;
+const WL = -3;                                          // water level (metres)
+const WSURF = WL - 0.25;                                // height the car floats at on water
+const LK = { x: 90, z: -10, R: 72 };                    // the big lake inside the road loop
+const RING = { c: 410, hw: 130, H: 80 };                // the mountain range that circles the start area
 
 // ---- the ring road (a wobbly circle round the middle of the map)
 const roadR  = t => 215 + 38 * Math.sin(2 * t + 0.6) + 16 * Math.sin(3 * t + 2.1);
@@ -4182,6 +4186,22 @@ function rampInfo(x, z, out) {
 }
 const _ri = { h: 0, u: 0 }, _q1 = { d: 0, hc: 0, t: 0 }, _q2 = { d: 0, hc: 0, t: 0 };
 
+// ---- the mountain range around the start area (a crossable range, not a wall)
+function ringRange(x, z, rM) {
+  const xx = (Math.hypot(x, z) - RING.c) / RING.hw;
+  if (xx <= -1 || xx >= 1) return 0;
+  const f = Math.pow(1 - xx * xx, 1.3), n = 0.55 + 0.9 * vnoise(x * 0.006 + 300, z * 0.006 - 120);
+  const crag = (vnoise(x * 0.04, z * 0.04 + 9) - 0.5) * 10 * f;
+  return (RING.H * f * n + crag) * smoothstep(MTN.Rb - 40, MTN.Rb + 160, rM);     // fades into the big mountain's foot
+}
+// ---- lakes: one big one near the start, and more out in the wilderness
+function lakeAmount(x, z, rM) {
+  const d = Math.hypot(x - LK.x, z - LK.z) + (vnoise(x * 0.02 + 5, z * 0.02 + 5) - 0.5) * 34;
+  const a = 1 - smoothstep(LK.R - 8, LK.R + 46, d);
+  const far = smoothstep(0.62, 0.74, vnoise(x * 0.0021 + 77, z * 0.0021 - 31)) * smoothstep(520, 640, Math.hypot(x, z)) * smoothstep(MTN.Rb + 40, MTN.Rb + 200, rM);
+  return Math.max(a * smoothstep(15, 45, Math.abs(ringDist(x, z))), far);      // never wet the ring road
+}
+
 // ---- THE height of the ground at any point in the world
 function heightAt(x, z) {
   let base = hills(x, z);
@@ -4193,10 +4213,13 @@ function heightAt(x, z) {
     const crags = (vnoise(x * 0.045 + 7, z * 0.045 - 3) - 0.5) * 14 * smoothstep(MTN.Rp + 25, MTN.Rp + 70, rM) * (1 - smoothstep(MTN.Rb * 0.75, MTN.Rb, rM));
     h = base * att * plat + mtnProfile(rM) + crags;
   }
+  h += ringRange(x, z, rM);
+  const lk = lakeAmount(x, z, rM);
+  if (lk > 0) h += ((WL - 2.5 - 5 * lk) - h) * lk;      // dig the lake basin
   spiralQuery(x, z, _q1);
   if (_q1.d < SP.half + 10) h += (_q1.hc - h) * (1 - smoothstep(SP.half + 1.5, SP.half + 10, _q1.d));    // carve the mountain road into the slope
   connQuery(x, z, _q2);
-  if (_q2.d < CONN.half + 10) h += (_q2.hc - h) * (1 - smoothstep(CONN.half + 1.5, CONN.half + 10, _q2.d));
+  if (_q2.d < CONN.half + 24) h += (_q2.hc - h) * (1 - smoothstep(CONN.half + 1.5, CONN.half + 24, _q2.d));
   return h + rampInfo(x, z, _ri);
 }
 
@@ -4213,17 +4236,21 @@ function groundH(x, z) {                 // physics + visuals both use this: exa
   if (tx + tz <= 1) return h00 + (h10 - h00) * tx + (h01 - h00) * tz;
   return h11 + (h01 - h11) * (1 - tx) + (h10 - h11) * (1 - tz);
 }
+const surfH = (x, z) => Math.max(groundH(x, z), WSURF);       // the ground, or the water surface if there is a lake here
 function slopeAt(x, z) { const a = (groundH(x + 1.5, z) - groundH(x - 1.5, z)) / 3, b = (groundH(x, z + 1.5) - groundH(x, z - 1.5)) / 3; return Math.hypot(a, b); }
 
-const _surf = { road: 1, gravel: 0, grip: 1, drive: 1, roll: 1, brake: 1 };
+const _surf = { road: 1, gravel: 0, water: 0, grip: 1, drive: 1, roll: 1, brake: 1 };
 function surfaceAt(x, z) {               // tarmac grips, gravel slides a bit, grass is slippery and draggy
   const tar = 1 - smoothstep(ROAD_HALF, ROAD_HALF + 2.5, Math.abs(ringDist(x, z)));
   spiralQuery(x, z, _q1); connQuery(x, z, _q2);
   const gr = 1 - smoothstep(SP.half, SP.half + 2.5, Math.min(_q1.d, _q2.d));
   const any = Math.max(tar, gr);
-  _surf.road = any; _surf.gravel = gr * (1 - tar);
+  const wat = smoothstep(WL + 0.4, WL - 0.5, groundH(x, z));
+  _surf.water = wat;
+  _surf.road = any * (1 - wat); _surf.gravel = gr * (1 - tar) * (1 - wat);
   _surf.grip = 0.68 + 0.32 * tar + 0.17 * gr * (1 - tar); _surf.drive = 0.78 + 0.22 * tar + 0.14 * gr * (1 - tar);
-  _surf.roll = 1 + 2.2 * (1 - any) + 0.3 * _surf.gravel; _surf.brake = 0.8 + 0.2 * tar + 0.1 * gr;
+  _surf.roll = 1 + 2.2 * (1 - any) + 0.3 * _surf.gravel + 2.5 * wat; _surf.brake = 0.8 + 0.2 * tar + 0.1 * gr;
+  _surf.grip *= 1 - 0.45 * wat; _surf.drive *= 1 - 0.4 * wat; _surf.brake *= 1 - 0.3 * wat;
   return _surf;
 }
 function roadD(x, z) { spiralQuery(x, z, _q1); connQuery(x, z, _q2); return Math.min(Math.abs(ringDist(x, z)), _q1.d, _q2.d); }
@@ -4306,6 +4333,14 @@ const TPL = {
     { geo: boxG, color: 0x4a3322, pos: [0, 0.5, 2.52], scale: [1.1, 2.2, 0.1] },
     { geo: boxG, color: 0x8fc4e8, pos: [-1.9, 1.6, 2.52], scale: [1.0, 1.0, 0.1] },
     { geo: boxG, color: 0x8fc4e8, pos: [1.9, 1.6, 2.52], scale: [1.0, 1.0, 0.1] }])),
+  cherry: tplOf(mergeParts([
+    { geo: new THREE.CylinderGeometry(0.28, 0.42, 2.6, 5), color: 0x764120, pos: [0, 1.3, 0], rot: [0.08, 0, 0.1] },
+    { geo: new THREE.CylinderGeometry(0.16, 0.24, 1.8, 5), color: 0x764120, pos: [0.7, 2.7, 0.2], rot: [0, 0, -0.7] },
+    { geo: new THREE.IcosahedronGeometry(2.3, 0), color: 0xffcfe2, pos: [0, 4.3, 0], scale: [1.15, 0.85, 1.15] },
+    { geo: new THREE.IcosahedronGeometry(1.6, 0), color: 0xff80b0, pos: [1.5, 3.7, 0.5] },
+    { geo: new THREE.IcosahedronGeometry(1.4, 0), color: 0xffcfe2, pos: [-1.4, 3.5, -0.6] },
+    { geo: new THREE.IcosahedronGeometry(1.0, 0), color: 0xff80b0, pos: [-0.3, 5.5, 0.4] },
+    { geo: new THREE.IcosahedronGeometry(0.9, 0), color: 0x567023, pos: [0.6, 3.0, -1.5] }])),
   box: tplOf(mergeParts([{ geo: boxG, color: 0xffffff }]))
 };
 function addInst(out, tpl, x, y, z, ry, sx, sy, sz, rx, color) {      // copy a shape into a chunk's big mesh
@@ -4354,8 +4389,11 @@ function paintTri(mx, my, mz, steep, rn, rn2) {
   else if (dR < ROAD_HALF + 1.8) _c.setHex(0x8d7f62);
   else if (dP < SP.half - 0.3) _c.setHex(rn2 > 0.5 ? 0x8c7f66 : 0x82765e);
   else if (dP < SP.half + 1.5) _c.setHex(0x665b48);
+  else if (my < WL - 3) _c.setHex(0x2f6f8e);                                                    // deep lake bed
+  else if (my < WL - 0.5) _c.setHex(rn > 0.5 ? 0x4f8fa0 : 0x5a9aa6);                           // shallow lake bed
+  else if (my < WL + 1.1) _c.setHex(rn > 0.5 ? 0xd9c98a : 0xcdbd7c);                           // beach
   else if (rM < MTN.Rp + 8) _c.setHex(rn > 0.5 ? 0x7d849a : 0x727a90);                       // summit stone
-  else if (my > 118) _c.setHex(rn > 0.3 ? 0xc6d2e0 : 0xb7c4d4);                                // snow
+  else if (my > 105) _c.setHex(rn > 0.3 ? 0xc6d2e0 : 0xb7c4d4);                                // snow
   else if (my > 70 || steep > 0.62) _c.setHex(rn > 0.5 ? 0x8c8f98 : 0x7b7e88);                // bare rock
   else if (steep > 0.45) _c.setHex(rn > 0.5 ? 0x8b6a45 : 0x7d6040);
   else if (my > 42) _c.setHex(rn > 0.5 ? 0x7c9a48 : 0x6f8e40);                                 // mountain meadow
@@ -4398,17 +4436,18 @@ function buildObjects(c) {
     if (roadD(x, z) < 11 || Math.hypot(x - SPAWN.x, z - SPAWN.z) < 22 || Math.hypot(x - MTN.x, z - MTN.z) < MTN.Rp + 45) continue;
     const gy = groundH(x, z);
     if (roll < 0.8) {
-      if (trees >= 60 || gy > 68 || rnd() > forest * forest * 2.2 || near(x, z, 3.2) || slopeAt(x, z) > 0.6) continue;
+      const lakeside = gy < WL + 9, grove = vnoise(x * 0.012 + 200, z * 0.012 - 50) > 0.64;
+      if (trees >= 60 || gy > 68 || gy < WL + 1.6 || rnd() > forest * forest * 2.2 + (lakeside ? 0.4 : 0) || near(x, z, 3.2) || slopeAt(x, z) > 0.6) continue;
       const s = 0.8 + rnd() * 0.8; trees++;
-      addInst(solid, rnd() < 0.65 ? TPL.pine : TPL.round, x, gy - 0.12, z, rnd() * 6.28, s, s * (0.9 + rnd() * 0.3), s);
+      addInst(solid, (lakeside || grove) && rnd() < 0.85 ? TPL.cherry : (rnd() < 0.65 ? TPL.pine : TPL.round), x, gy - 0.12, z, rnd() * 6.28, s, s * (0.9 + rnd() * 0.3), s);
       local.push({ x, z, r: 0.55 * s }); c.colliders.push({ t: 0, x, z, r: 0.55 * s, e: 0.3 });
     } else if (roll < 0.97) {
-      if (rocks >= 14 || gy > 135 || near(x, z, 2.5)) continue;
+      if (rocks >= 14 || gy > 135 || gy < WL - 0.3 || near(x, z, 2.5)) continue;
       const s = 0.8 + rnd() * 1.6; rocks++;
       addInst(solid, TPL.rock, x, gy - 0.2 * s, z, rnd() * 6.28, s, s * (0.7 + rnd() * 0.6), s * (0.8 + rnd() * 0.5));
       local.push({ x, z, r: 0.9 * s }); c.colliders.push({ t: 0, x, z, r: 0.9 * s, e: 0.35 });
     } else {
-      if (houses >= 1 || gy > 60 || roadD(x, z) < 16 || near(x, z, 8)) continue;
+      if (houses >= 1 || gy > 60 || gy < WL + 2.5 || roadD(x, z) < 16 || near(x, z, 8)) continue;
       const hh = [groundH(x + 4, z), groundH(x - 4, z), groundH(x, z + 4), groundH(x, z - 4), gy];
       if (Math.max(...hh) - Math.min(...hh) > 1.6) continue;
       const ry = rnd() * 6.28; houses++;
@@ -4528,6 +4567,29 @@ const SUM = { crystal: null, inner: null, shards: [], flames: [], beams: [] };
   g.setAttribute('color', new THREE.BufferAttribute(cols, 3));
   const m = new THREE.Mesh(g, new THREE.MeshBasicMaterial({ vertexColors: true, fog: false, side: THREE.DoubleSide }));
   m.position.set(MTN.x, 0, MTN.z); m.frustumCulled = false; scene.add(m);
+})();
+
+// the water: one big see-through plane that follows you around (its texture shimmers)
+const waterTex = (() => {
+  const cv = document.createElement('canvas'); cv.width = cv.height = 32; const g = cv.getContext('2d'), r = mulberry32(5);
+  g.fillStyle = '#3f86c8'; g.fillRect(0, 0, 32, 32);
+  for (let i = 0; i < 110; i++) { g.fillStyle = r() < 0.7 ? '#5aa2e0' : '#b4dcff'; g.fillRect((r() * 32) | 0, (r() * 32) | 0, r() < 0.5 ? 2 : 1, 1); }
+  const t = new THREE.CanvasTexture(cv); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.magFilter = THREE.NearestFilter; t.minFilter = THREE.NearestFilter; t.repeat.set(150, 150); return t;
+})();
+const water = new THREE.Mesh(new THREE.PlaneGeometry(1200, 1200), new THREE.MeshBasicMaterial({ map: waterTex, transparent: true, opacity: 0.74, depthWrite: false }));
+water.rotation.x = -Math.PI / 2; water.position.y = WL; water.renderOrder = 1; water.frustumCulled = false; scene.add(water);
+
+// a hazy far-away copy of the mountain range, so you can see it from the middle of the map
+(function buildRangeImpostor() {
+  const SEG = 120, RAD = 28, r0 = RING.c - RING.hw - 10, r1 = RING.c + RING.hw + 10, pos = [], col = [], idx = [], hz = new THREE.Color(HORIZON), c = new THREE.Color();
+  for (let i = 0; i <= SEG; i++) for (let j = 0; j <= RAD; j++) {
+    const a = i / SEG * TAU, r = r0 + (r1 - r0) * j / RAD, x = Math.cos(a) * r, z = Math.sin(a) * r;
+    const h = ringRange(x, z, 1e9) - 20; pos.push(x, h, z);
+    const y = h + 20; c.setHex(y > 105 ? 0xc6d2e0 : y > 40 ? 0x8c8f98 : y > 12 ? 0x6f8e40 : 0x5fa83f); c.lerp(hz, 0.42); col.push(c.r, c.g, c.b);
+  }
+  for (let i = 0; i < SEG; i++) for (let j = 0; j < RAD; j++) { const a = i * (RAD + 1) + j, b = a + RAD + 1; idx.push(a, b, a + 1, a + 1, b, b + 1); }
+  const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); g.setAttribute('color', new THREE.Float32BufferAttribute(col, 3)); g.setIndex(idx);
+  const m = new THREE.Mesh(g, new THREE.MeshBasicMaterial({ vertexColors: true, fog: false, side: THREE.DoubleSide })); m.frustumCulled = false; scene.add(m);
 })();
 
 const _ph = { t: 0 };
@@ -4752,10 +4814,11 @@ function stepCar(dt) {
     let res = T.ROLL_RES * surf.roll + T.DRAG * vf * vf;
     if (c.throttle < 0.05 && c.brake < 0.05) res += T.ENGINE_BRAKE;
     if (inp.hand) res += T.HANDBRAKE;
+    if (surf.water > 0) res += surf.water * (1.2 + 0.02 * vf * vf);       // water drags hard
     res = Math.min(res, Math.abs(vf) / dt);
     aL -= Math.sign(vf) * res;
     // hills: gravity pulls you down the slope
-    const gx = (groundH(c.x + 0.8, c.z) - groundH(c.x - 0.8, c.z)) / 1.6, gz = (groundH(c.x, c.z + 0.8) - groundH(c.x, c.z - 0.8)) / 1.6;
+    const gx = (surfH(c.x + 0.8, c.z) - surfH(c.x - 0.8, c.z)) / 1.6, gz = (surfH(c.x, c.z + 0.8) - surfH(c.x, c.z - 0.8)) / 1.6;
     c.vx += (fx * aL - T.SLOPE_G * gx) * dt; c.vz += (fz * aL - T.SLOPE_G * gz) * dt;
 
     // ---- sideways grip: this is the heart of the feel.
@@ -4785,6 +4848,7 @@ function stepCar(dt) {
     let sk = clamp((c.slipSpeed - 1.3) / 3.5, 0, 1);
     if (c.brake > 0.7 && vf > 9) sk = Math.max(sk, 0.55);
     if (c.throttle > 0.9 && speed < 7 && surf.road > 0.5) sk = Math.max(sk, 0.35);
+    if (surf.water > 0.3) sk = 0;
     c.skid = sk;
     c.wheelAngle += (vf / WHEEL_R) * dt;
   } else { c.skid = 0; c.wheelAngle += (vf / WHEEL_R) * dt * 0.98; }
@@ -4809,7 +4873,7 @@ function updateVertical(dt) {
   const c = car, sy = Math.sin(c.yaw), cy = Math.cos(c.yaw), hl = TUNE.WHEELBASE / 2, hw = TUNE.TRACK / 2;
   const lx = cy, lz = -sy;                                      // car's left
   const px = (f, s) => c.x + sy * hl * f + lx * hw * s, pz = (f, s) => c.z + cy * hl * f + lz * hw * s;
-  const hFL = groundH(px(1, 1), pz(1, 1)), hFR = groundH(px(1, -1), pz(1, -1)), hRL = groundH(px(-1, 1), pz(-1, 1)), hRR = groundH(px(-1, -1), pz(-1, -1));
+  const hFL = surfH(px(1, 1), pz(1, 1)), hFR = surfH(px(1, -1), pz(1, -1)), hRL = surfH(px(-1, 1), pz(-1, 1)), hRR = surfH(px(-1, -1), pz(-1, -1));
   const hF = (hFL + hFR) / 2, hR = (hRL + hRR) / 2, gc = (hF + hR) / 2;
   const vyOld = c.vy;
   c.vy -= TUNE.GRAVITY * dt;
@@ -4917,6 +4981,15 @@ function updateEffects(dt) {
       else if ((!onRoad || surf.gravel > 0.5) && speed > 5 && Math.random() < clamp(speed / 22, 0.2, 1)) spawnP(rearX[i], gy, rearZ[i], (Math.random() - .5) * 1.5, 0.6 + Math.random() * 1.2, (Math.random() - .5) * 1.5, 0.7, 0.38, 0xb7a672, -0.3, 1.2);
     }
   }
+  // splashes when driving through water
+  if (surf.water > 0.3 && c.grounded && speed > 1.5 && Math.random() < 0.9) {
+    for (let i = 0; i < 2; i++) {
+      const sx = c.x + sy * (i ? 1.6 : -1.2) + lx * (Math.random() - 0.5) * 1.6, sz = c.z + cy * (i ? 1.6 : -1.2) + lz * (Math.random() - 0.5) * 1.6;
+      spawnP(sx, WL + 0.2, sz, (Math.random() - .5) * 3 - c.vx * 0.15, 1.5 + Math.random() * 3 * Math.min(1, speed / 12), (Math.random() - .5) * 3 - c.vz * 0.15, 0.7, 0.22, Math.random() < 0.5 ? 0xe8f6ff : 0x9fd4ff, 9, 0.5);
+    }
+  }
+  if (surf.water > 0.5 && !updateEffects.wasWater && speed > 3) { sound.thump(Math.min(1, speed / 25)); shake = Math.min(1.4, shake + speed * 0.01); }
+  updateEffects.wasWater = surf.water > 0.5;
   updateParticles(dt);
 }
 
@@ -4932,7 +5005,7 @@ function updateCamera(dt) {
   cam.fx += (c.x - cam.fx) * damp(18, dt); cam.fz += (c.z - cam.fz) * damp(18, dt); cam.fy += (c.y - cam.fy) * damp(6, dt);
   const dist = 7.4 + speed * 0.045, h = 2.8 + speed * 0.01;
   const cx = cam.fx - Math.sin(cam.yaw) * dist, cz = cam.fz - Math.cos(cam.yaw) * dist;
-  let cyy = cam.fy + h; const gmin = groundH(cx, cz) + 1.0; if (cyy < gmin) cyy = gmin;
+  let cyy = cam.fy + h; const gmin = Math.max(groundH(cx, cz) + 1.0, WL + 1.3); if (cyy < gmin) cyy = gmin;
   const sh = shake + (surfaceAt(c.x, c.z).road < 0.5 ? Math.min(0.12, speed * 0.003) : 0);
   camera.position.set(cx + (Math.random() - .5) * sh * 0.25, cyy + (Math.random() - .5) * sh * 0.25, cz + (Math.random() - .5) * sh * 0.25);
   camera.lookAt(cam.fx + Math.sin(cam.yaw) * 3.5, cam.fy + 1.1, cam.fz + Math.cos(cam.yaw) * 3.5);
@@ -5135,12 +5208,13 @@ function frame(now) {
   sun.position.set(car.x + SUN_DIR.x * 60, car.y + SUN_DIR.y * 60, car.z + SUN_DIR.z * 60); sun.target.position.set(car.x, car.y, car.z);
   sky.position.copy(camera.position);
   sunDisc.position.copy(camera.position).addScaledVector(SUN_DIR, 420); sunDisc.lookAt(camera.position);
+  water.position.set(Math.round(camera.position.x / 8) * 8, WL, Math.round(camera.position.z / 8) * 8); waterTex.offset.set(time * 0.012, time * 0.008);
   clouds.position.set(camera.position.x + Math.sin(time * 0.02) * 70, 0, camera.position.z);
 
   renderer.setRenderTarget(rt); renderer.render(scene, camera);
   renderer.setRenderTarget(null); postMat.uniforms.tDiffuse.value = rt.texture; renderer.render(postScene, postCam);
 }
-window.__game = { car, inp, keys, TUNE, scene, camera, stepCar, groundH, heightAt, roadPoint, spiralPoint, SP, MTN, CONN, chunks, updateWorld, startGame, getState: () => state, placeAtSpawn, surfaceAt };
+window.__game = { WL, LK, RING, ringDist, lakeAmount, ringRange, surfH, car, inp, keys, TUNE, scene, camera, stepCar, groundH, heightAt, roadPoint, spiralPoint, SP, MTN, CONN, chunks, updateWorld, startGame, getState: () => state, placeAtSpawn, surfaceAt };
 initGameUI();
 requestAnimationFrame(t => { last = t; frame(t); });
 })();
