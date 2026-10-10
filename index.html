@@ -5,114 +5,153 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Pixel Drive</title>
 <style>
-  @font-face { font-family:'PS2P'; src:url(data:font/woff2;base64,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) format('woff2'); font-display:block; }
-  :root { --u:8px; }
-  html, body { margin:0; height:100%; background:#0d1220; overflow:hidden; color:#fff; user-select:none; -webkit-user-select:none;
-    font-family:'PS2P','Courier New',monospace; -webkit-font-smoothing:none; font-smooth:never; text-rendering:optimizeSpeed; }
-  button { font-family:inherit; -webkit-font-smoothing:none; }
+  html, body { margin:0; height:100%; background:#0d1220; overflow:hidden;
+    font-family:"Courier New", Courier, monospace; color:#fff; user-select:none; -webkit-user-select:none; }
+  /* The canvas is drawn small, then stretched up with hard edges = chunky pixels */
   canvas#view { position:fixed; left:0; top:0; image-rendering:pixelated; image-rendering:crisp-edges; }
-  .px { text-shadow:calc(var(--u)*.25) calc(var(--u)*.25) 0 #000; }
+  .px { text-shadow:3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000; font-weight:900; letter-spacing:2px; }
+  #speedBox { position:fixed; right:22px; bottom:18px; text-align:right; pointer-events:none; }
+  #speed { font-size:64px; line-height:1; }
+  #unit { font-size:16px; opacity:.9; }
+  #bar { display:flex; gap:3px; justify-content:flex-end; margin:8px 0 4px; }
+  #bar i { display:block; width:9px; height:14px; background:#000; border:2px solid #000; box-sizing:border-box; background:rgba(255,255,255,.18); }
+  #gear { font-size:20px; }
+  #help { position:fixed; left:18px; bottom:16px; font-size:14px; line-height:1.55; pointer-events:none; transition:opacity 1.2s; }
+  #help b { color:#ffd84a; }
+  #msg { position:fixed; left:0; right:0; top:42%; text-align:center; font-size:22px; pointer-events:none; }
+  #drift { position:fixed; left:0; right:0; top:14%; text-align:center; font-size:34px; color:#ffd84a; opacity:0; pointer-events:none; }
+
   .hidden { display:none !important; }
-  #speedBox { position:fixed; right:calc(var(--u)*2); bottom:calc(var(--u)*2); text-align:right; pointer-events:none; line-height:1.4; }
-  #alt { font-size:calc(var(--u)*2); color:#7ff3ff; margin-bottom:calc(var(--u)*.5); }
-  #speed { font-size:calc(var(--u)*8); line-height:1; }
-  #unit { font-size:calc(var(--u)*2); }
-  #bar { display:flex; gap:calc(var(--u)*.4); justify-content:flex-end; margin:var(--u) 0; }
-  #bar i { display:block; width:calc(var(--u)*1.2); height:calc(var(--u)*2); border:calc(var(--u)*.25) solid #000; box-sizing:border-box; background:rgba(255,255,255,.18); }
-  #gear { font-size:calc(var(--u)*2); }
-  #help { position:fixed; left:calc(var(--u)*2); bottom:calc(var(--u)*2); font-size:calc(var(--u)*1.5); line-height:2; pointer-events:none; transition:opacity 1.2s; }
-  #msg { position:fixed; left:0; right:0; top:42%; text-align:center; font-size:calc(var(--u)*2); pointer-events:none; z-index:50; }
-  #drift { position:fixed; left:0; right:0; top:14%; text-align:center; font-size:calc(var(--u)*4); color:#ffd84a; opacity:0; pointer-events:none; }
-  #toasts { position:fixed; left:0; right:0; top:22%; text-align:center; pointer-events:none; z-index:15; }
-  .toast { font-size:calc(var(--u)*4); color:#7ff3ff; animation:floatUp 2.6s ease-out forwards; position:absolute; left:0; right:0; }
-  @keyframes floatUp { 0%{ transform:translateY(20px) scale(.6); opacity:0;} 12%{ transform:translateY(0) scale(1.1); opacity:1;} 75%{ opacity:1;} 100%{ transform:translateY(-40px); opacity:0;} }
-  .panel { background:rgba(10,14,34,.9); border:calc(var(--u)*.5) solid #fff; box-shadow:0 0 0 calc(var(--u)*.5) #000, calc(var(--u)) calc(var(--u)) 0 calc(var(--u)*.5) #000; padding:calc(var(--u)*2) calc(var(--u)*3); }
+  .panel { background:rgba(10,14,34,.88); border:4px solid #fff; box-shadow:0 0 0 4px #000, 8px 8px 0 4px #000; padding:18px 26px; }
   .screen { position:fixed; inset:0; display:flex; flex-direction:column; align-items:center; }
   .scan { position:absolute; inset:0; pointer-events:none; background:repeating-linear-gradient(to bottom, rgba(0,0,0,.20) 0 2px, transparent 2px 4px); }
   #title { z-index:20; justify-content:space-between; padding:4vh 0 5vh; box-sizing:border-box;
     background:linear-gradient(to bottom, rgba(4,8,28,.82) 0%, rgba(4,8,28,0) 40%, rgba(4,8,28,0) 58%, rgba(4,8,28,.86) 100%); }
   #logo { width:min(88vw,780px); image-rendering:pixelated; margin-top:2vh; filter:drop-shadow(0 10px 18px rgba(0,0,0,.5)); animation:bob 3.2s ease-in-out infinite; }
   @keyframes bob { 0%,100%{ transform:translateY(0);} 50%{ transform:translateY(-6px);} }
-  #sub { font-size:calc(var(--u)*2.5); letter-spacing:calc(var(--u)*.5); color:#7ff3ff; margin-top:calc(var(--u)*1.5); text-align:center; }
-  #tag { font-size:calc(var(--u)*1.5); color:#fff; opacity:.9; margin-top:calc(var(--u)*1.5); text-align:center; line-height:1.8; padding:0 3vw; }
-  .menuBox { display:flex; flex-direction:column; align-items:center; gap:calc(var(--u)*1.5); }
-  .row { display:flex; gap:calc(var(--u)*2); flex-wrap:wrap; justify-content:center; }
-  .btn { font-size:calc(var(--u)*2); color:#fff; background:#1b2550; border:calc(var(--u)*.5) solid #fff; padding:calc(var(--u)*1.5) calc(var(--u)*2.5); cursor:pointer;
-    box-shadow:0 0 0 calc(var(--u)*.5) #000, calc(var(--u)*.75) calc(var(--u)*.75) 0 calc(var(--u)*.5) #000; text-shadow:calc(var(--u)*.25) calc(var(--u)*.25) 0 #000; }
+  #sub { font-size:clamp(14px,2.4vw,24px); letter-spacing:8px; color:#7ff3ff; margin-top:10px; text-align:center; }
+  #tag { font-size:clamp(11px,1.5vw,15px); letter-spacing:3px; color:#fff; opacity:.85; margin-top:8px; text-align:center; }
+  .menuBox { display:flex; flex-direction:column; align-items:center; gap:14px; }
+  .row { display:flex; gap:16px; flex-wrap:wrap; justify-content:center; }
+  .btn { font:inherit; font-weight:900; letter-spacing:3px; font-size:18px; color:#fff; background:#1b2550; border:4px solid #fff; padding:10px 22px; cursor:pointer;
+    box-shadow:0 0 0 4px #000, 6px 6px 0 4px #000; text-shadow:2px 2px 0 #000; }
   .btn:hover { background:#ffd84a; color:#201400; text-shadow:none; transform:translate(-2px,-2px); }
   .btn:active { transform:translate(2px,2px); }
-  .btn.big { font-size:calc(var(--u)*3); padding:calc(var(--u)*2) calc(var(--u)*4); background:#e8452a; }
-  .blink { animation:blink 1s steps(2,jump-none) infinite; font-size:calc(var(--u)*1.5); }
+  .btn.big { font-size:26px; padding:14px 40px; background:#e8452a; }
+  .blink { animation:blink 1s steps(2,jump-none) infinite; font-size:15px; letter-spacing:4px; }
   @keyframes blink { 0%{opacity:1;} 50%{opacity:.15;} }
-  #how { position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); width:min(88vw,calc(var(--u)*80)); font-size:calc(var(--u)*1.5); line-height:2.2; z-index:3; }
-  #how h3 { margin:0 0 calc(var(--u)); color:#ffd84a; font-size:calc(var(--u)*2); font-weight:normal; }
-  #how kbd { font-family:inherit; background:#fff; color:#111; padding:calc(var(--u)*.25) calc(var(--u)*.6); box-shadow:calc(var(--u)*.25) calc(var(--u)*.25) 0 #000; }
-  #credit { font-size:calc(var(--u)*1.2); opacity:.7; text-align:center; }
-  #pause { z-index:30; justify-content:center; background:rgba(4,8,28,.6); }
-  #pause .panel { text-align:center; }
-  .endT { font-size:calc(var(--u)*4); margin-bottom:calc(var(--u)*2); }
+  #best { font-size:14px; letter-spacing:3px; color:#ffd84a; }
+  #how { position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); width:min(86vw,640px); font-size:15px; line-height:1.7; z-index:3; }
+  #how h3 { margin:0 0 6px; color:#ffd84a; letter-spacing:3px; }
+  #how kbd { background:#fff; color:#111; padding:1px 6px; font-weight:900; box-shadow:2px 2px 0 #000; }
+  #credit { font-size:12px; opacity:.7; letter-spacing:2px; text-align:center; }
+  #hudTop { position:fixed; left:0; right:0; top:14px; display:flex; justify-content:space-between; align-items:flex-start; padding:0 20px; pointer-events:none; z-index:5; }
+  #hudL { font-size:26px; line-height:1.4; } #hudL small { font-size:15px; opacity:.9; letter-spacing:2px; }
+  #timerBox { position:absolute; left:50%; transform:translateX(-50%); text-align:center; }
+  #timer { font-size:46px; line-height:1; } #timer.low { color:#ff5a4a; animation:blink .5s steps(2,jump-none) infinite; }
+  #timerLbl { font-size:13px; letter-spacing:4px; opacity:.85; }
+  #arrowBox { position:fixed; top:92px; left:50%; transform:translateX(-50%); text-align:center; pointer-events:none; z-index:5; font-size:14px; }
+  #arrow { width:34px; height:34px; margin:0 auto 2px; background:#ffd84a; clip-path:polygon(50% 0, 100% 100%, 50% 72%, 0 100%); filter:drop-shadow(2px 2px 0 #000); }
+  #minimap { position:fixed; right:18px; top:14px; width:160px; height:160px; image-rendering:pixelated; border:4px solid #fff; box-shadow:0 0 0 4px #000; background:rgba(10,14,34,.72); z-index:5; }
+  #countdown { position:fixed; left:0; right:0; top:30%; text-align:center; font-size:clamp(70px,16vw,170px); color:#ffd84a; z-index:15; pointer-events:none; }
+  #countdown.pop { animation:pop .9s ease-out forwards; }
+  @keyframes pop { 0%{ transform:scale(2.2); opacity:0;} 15%{ transform:scale(1); opacity:1;} 80%{ opacity:1;} 100%{ transform:scale(.9); opacity:0;} }
+  #toasts { position:fixed; left:0; right:0; top:42%; text-align:center; pointer-events:none; z-index:15; }
+  .toast { font-size:34px; color:#7dff7a; animation:floatUp 1.2s ease-out forwards; position:absolute; left:0; right:0; }
+  .toast.air { color:#5ae8ff; }
+  @keyframes floatUp { 0%{ transform:translateY(20px) scale(.6); opacity:0;} 15%{ transform:translateY(0) scale(1.1); opacity:1;} 100%{ transform:translateY(-60px); opacity:0;} }
   #fade { position:fixed; inset:0; background:#000; opacity:0; pointer-events:none; z-index:40; transition:opacity .35s; }
+  #end, #pause { z-index:30; justify-content:center; background:rgba(4,8,28,.6); }
+  #end .panel, #pause .panel { text-align:center; min-width:min(86vw,420px); }
+  #endTitle { font-size:34px; color:#ffd84a; margin-bottom:12px; letter-spacing:3px; }
+  .stat { display:flex; justify-content:space-between; gap:40px; font-size:20px; line-height:1.8; }
+  .stat b { color:#7ff3ff; }
+  #newBest { color:#7dff7a; font-size:18px; letter-spacing:3px; margin-top:6px; }
 </style>
 </head>
 <body>
 <canvas id="view"></canvas>
 <div id="drift" class="px">DRIFT!</div>
-<div id="speedBox" class="px hidden">
-  <div id="alt">ALT 0 M</div>
+<div id="speedBox" class="px">
   <div id="speed">0</div>
   <div id="unit">KM/H</div>
   <div id="bar"></div>
   <div id="gear">GEAR 1</div>
 </div>
 <div id="help" class="px" style="opacity:0">
-  W / UP: GAS &nbsp; S / DOWN: BRAKE<br>
-  A D / LEFT RIGHT: STEER<br>
-  SPACE: HANDBRAKE (DRIFT!)<br>
-  R: UNSTICK &nbsp; G: GO HOME<br>
-  ESC: PAUSE &nbsp; M: SOUND &nbsp; P: PIXELS
+  <b>W / &uarr;</b> gas &nbsp; <b>S / &darr;</b> brake &amp; reverse<br>
+  <b>A D / &larr; &rarr;</b> steer &nbsp; <b>SPACE</b> handbrake (drift!)<br>
+  <b>R</b> reset car &nbsp; <b>P</b> pixel size &nbsp; <b>M</b> sound &nbsp; <b>H</b> hide help
 </div>
-<div id="msg" class="px">LOADING...</div>
+<div id="msg" class="px">Loading car...</div>
+<div id="hudTop" class="px hidden">
+  <div id="hudL"><div>&#9733; <span id="starN">0</span>/<span id="starT">20</span></div><small>SCORE <span id="scoreN">0</span></small></div>
+  <div id="timerBox"><div id="timer">1:15.0</div><div id="timerLbl">TIME LEFT</div></div>
+</div>
+<div id="arrowBox" class="px hidden"><div id="arrow"></div><div id="dist">0 m</div></div>
+<canvas id="minimap" width="80" height="80" class="hidden"></canvas>
+<div id="countdown" class="px"></div>
 <div id="toasts" class="px"></div>
 
 <div id="title" class="screen">
   <div class="scan"></div>
   <div style="text-align:center; z-index:2">
     <canvas id="logo"></canvas>
-    <div id="sub" class="px">OPEN WORLD DRIVING</div>
-    <div id="tag" class="px">NO LIMITS. CROSS THE RANGE. CLIMB THE MOUNTAIN.</div>
+    <div id="sub" class="px">STAR RUSH</div>
+    <div id="tag" class="px">COLLECT EVERY STAR BEFORE THE CLOCK RUNS OUT</div>
   </div>
   <div id="how" class="panel hidden">
-    <h3>CONTROLS</h3>
-    <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> OR ARROWS: DRIVE<br>
-    <kbd>SPACE</kbd> HANDBRAKE: DRIFT<br>
-    <kbd>R</kbd> UNSTICK &nbsp; <kbd>G</kbd> BACK TO START<br>
-    <kbd>ESC</kbd> PAUSE &nbsp; <kbd>P</kbd> PIXEL SIZE &nbsp; <kbd>M</kbd> SOUND<br><br>
-    THE WORLD NEVER ENDS. MOUNTAINS ENCIRCLE THE START, LAKES ARE SCATTERED AROUND (YOU CAN DRIVE THROUGH WATER, SLOWLY), AND A HUGE MOUNTAIN SITS TO THE WEST: FOLLOW THE GRAVEL ROAD UP, OR LOOK FOR THE BEAM OF LIGHT.
-    <div style="text-align:center;margin-top:calc(var(--u)*1.5)"><button class="btn" id="btnHowClose" tabindex="-1">GOT IT</button></div>
+    <h3>HOW TO PLAY</h3>
+    Grab all the <b style="color:#ffd84a">&#9733; stars</b> scattered around the island. Every star adds
+    <b>+7 to +10 seconds</b>. Cyan stars float above the ramps &mdash; jump for them for a big bonus.<br>
+    Follow the arrow and the mini-map. Clear them all to win; run out of time and it's game over.<br><br>
+    <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> / arrows: drive &nbsp; <kbd>SPACE</kbd> handbrake (drift) &nbsp; <kbd>R</kbd> reset car<br>
+    <kbd>ESC</kbd> pause &nbsp; <kbd>P</kbd> pixel size &nbsp; <kbd>M</kbd> sound
+    <div style="text-align:center;margin-top:12px"><button class="btn" id="btnHowClose" tabindex="-1">GOT IT</button></div>
   </div>
   <div class="menuBox" style="z-index:2">
+    <div id="best" class="px"></div>
     <div class="row">
       <button class="btn big" id="btnStart" tabindex="-1">&#9654; START</button>
-      <button class="btn" id="btnHow" tabindex="-1">CONTROLS</button>
+      <button class="btn" id="btnHow" tabindex="-1">HOW TO PLAY</button>
     </div>
     <div class="blink px">PRESS ENTER</div>
     <div id="credit" class="px">M: SOUND &middot; P: PIXEL SIZE</div>
   </div>
 </div>
 
+<div id="end" class="screen hidden">
+  <div class="scan"></div>
+  <div class="panel px" style="z-index:2">
+    <div id="endTitle">TIME UP!</div>
+    <div class="stat"><span>STARS</span><b id="eStars">0/20</b></div>
+    <div class="stat"><span>AIR BONUS STARS</span><b id="eAir">0</b></div>
+    <div class="stat"><span>TIME</span><b id="eTime">0:00</b></div>
+    <div class="stat"><span>SCORE</span><b id="eScore">0</b></div>
+    <div class="stat"><span>BEST</span><b id="eBest">0</b></div>
+    <div id="newBest" class="hidden">&#9733; NEW BEST! &#9733;</div>
+    <div class="row" style="margin-top:18px; justify-content:center">
+      <button class="btn big" id="btnAgain" tabindex="-1">PLAY AGAIN</button>
+      <button class="btn" id="btnTitle" tabindex="-1">TITLE</button>
+    </div>
+    <div style="font-size:12px;opacity:.7;margin-top:12px;letter-spacing:2px">ENTER: again &middot; T: title</div>
+  </div>
+</div>
+
 <div id="pause" class="screen hidden">
   <div class="scan"></div>
   <div class="panel px" style="z-index:2">
-    <div class="endT">PAUSED</div>
+    <div class="endT" style="font-size:34px;letter-spacing:3px;margin-bottom:14px">PAUSED</div>
     <div class="row" style="justify-content:center">
       <button class="btn big" id="btnResume" tabindex="-1">RESUME</button>
       <button class="btn" id="btnRestart" tabindex="-1">RESTART</button>
       <button class="btn" id="btnQuit" tabindex="-1">QUIT</button>
     </div>
-    <div style="font-size:calc(var(--u)*1.2);opacity:.7;margin-top:calc(var(--u)*1.5)">ESC / ENTER: RESUME &middot; T: TITLE</div>
+    <div style="font-size:12px;opacity:.7;margin-top:12px;letter-spacing:2px">ESC / ENTER: resume &middot; T: title</div>
   </div>
 </div>
 <div id="fade"></div>
+
 
 <script>/**
  * @license
@@ -4075,7 +4114,7 @@ const postMat = new THREE.ShaderMaterial({
     }
     void main(){
       vec3 c = texture2D(tDiffuse, vUv).rgb;
-      c = (c - 0.5) * 1.1 + 0.49;                    // a little punch
+      c = (c - 0.5) * 1.1 + 0.52;                    // a little punch
       float t = bayer4(gl_FragCoord.xy) - 0.5;
       float L = 7.0;                                  // colour steps per channel
       c = floor(c * L + 0.5 + t * 0.75) / L;
@@ -4088,7 +4127,6 @@ function resize() {
   const targetH = PIXEL_HEIGHTS[pixelMode];
   const PIX = Math.max(1, Math.round(innerHeight / targetH));
   const w = Math.ceil(innerWidth / PIX), h = Math.ceil(innerHeight / PIX);
-  document.documentElement.style.setProperty('--u', (8 * Math.max(1, Math.round(innerHeight / 540))) + 'px');
   renderer.setPixelRatio(1);
   renderer.setSize(w, h, false);
   canvas.style.width = (w * PIX) + 'px';
@@ -4100,164 +4138,120 @@ function resize() {
 addEventListener('resize', resize);
 
 /* =====================================================================
-   4. THE WORLD: an endless land (built in chunks), a road loop,
-      and ONE giant mountain with a road spiralling up to a mysterious summit
+   4. THE WORLD: road loop, hills, ramps, mountains
    ===================================================================== */
-const CELL = 3, CS = 32, CHUNK = CELL * CS;            // a chunk = 32 x 32 cells = 96 m
-const ROAD_HALF = 7, TAU = Math.PI * 2;
-const WL = -3;                                          // water level (metres)
-const WSURF = WL - 0.25;                                // height the car floats at on water
-const LK = { x: 90, z: -10, R: 72 };                    // the big lake inside the road loop
-const RING = { c: 410, hw: 130, H: 80 };                // the mountain range that circles the start area
+const WORLD = 360, CELL = 3, N = WORLD * 2 / CELL, N1 = N + 1;
+const ROAD_HALF = 7;
 
-// ---- the ring road (a wobbly circle round the middle of the map)
+// The road is a wobbly circle. roadR(angle) = distance from the centre.
 const roadR  = t => 215 + 38 * Math.sin(2 * t + 0.6) + 16 * Math.sin(3 * t + 2.1);
 const roadDR = t => 76 * Math.cos(2 * t + 0.6) + 48 * Math.cos(3 * t + 2.1);
-function ringDist(x, z) {
+function roadDist(x, z) {               // distance from the middle of the road
   const rho = Math.hypot(x, z) + 1e-6, t = Math.atan2(z, x), k = roadDR(t) / rho;
   return (rho - roadR(t)) / Math.sqrt(1 + k * k);
 }
-function roadPoint(t) {
+function roadPoint(t) {                 // point on the road + direction of travel
   const R = roadR(t), dR = roadDR(t), c = Math.cos(t), s = Math.sin(t);
   let tx = dR * c - R * s, tz = dR * s + R * c; const l = Math.hypot(tx, tz); tx /= l; tz /= l;
   return { x: R * c, z: R * s, tx, tz, nx: tz, nz: -tx };
 }
 
-// ---- the mountain: a big cone with a flat top (the summit plateau)
-const MTN = { x: -760, z: 140, Rb: 430, Rp: 48, H: 150 };
-const mtnProfile = r => { const u = clamp((MTN.Rb - r) / (MTN.Rb - MTN.Rp), 0, 1); return MTN.H * (0.65 * u + 0.35 * u * u * (3 - 2 * u)); };
-
-// ---- the mountain road: a spiral that winds round and round up to the top
-const SP = { R0: 410, a: 30, half: 6.5 };
-SP.t0 = Math.atan2(-MTN.z, -MTN.x);                  // starts on the side facing the middle of the map
-SP.T = (SP.R0 - (MTN.Rp + 6)) / SP.a;                // how far (in radians) it winds
-function spiralPoint(t) {
-  const rho = SP.R0 - SP.a * t, ph = SP.t0 + t, c = Math.cos(ph), s = Math.sin(ph);
-  let tx = -SP.a * c - rho * s, tz = -SP.a * s + rho * c; const l = Math.hypot(tx, tz);
-  return { x: MTN.x + rho * c, z: MTN.z + rho * s, tx: tx / l, tz: tz / l, rho, c, s };
-}
-function spiralQuery(x, z, out) {
-  const dx = x - MTN.x, dz = z - MTN.z, r = Math.hypot(dx, dz);
-  out.d = 1e9; out.hc = 0; out.t = 0;
-  if (r > SP.R0 + 20 || r < MTN.Rp - 8) return out;
-  let base = Math.atan2(dz, dx) - SP.t0; base -= Math.floor(base / TAU) * TAU;
-  for (let k = 0; k < 4; k++) {
-    const t = base + k * TAU; if (t > SP.T) break;
-    const rho = SP.R0 - SP.a * t, q = SP.a / r, d = Math.abs(r - rho) / Math.sqrt(1 + q * q);
-    if (d < out.d) { out.d = d; out.t = t; out.hc = mtnProfile(rho); }
-  }
-  return out;
-}
-
-// ---- hills (the gentle stuff, plus far-away mountains that appear when you roam)
-function hills(x, z) {
-  let h = (vnoise(x * 0.008 + 10, z * 0.008) - 0.5) * 26 + (vnoise(x * 0.022, z * 0.022 + 30) - 0.5) * 9 + (vnoise(x * 0.09 + 5, z * 0.09 + 9) - 0.5) * 0.5;
-  const far = smoothstep(380, 700, Math.hypot(x, z)), awayM = smoothstep(MTN.Rb + 80, MTN.Rb + 400, Math.hypot(x - MTN.x, z - MTN.z));
-  h += smoothstep(0.55, 0.85, vnoise(x * 0.0016 + 40, z * 0.0016 - 17)) * far * awayM * (90 + (vnoise(x * 0.03 + 9, z * 0.03 + 2) - 0.5) * 24);
-  return h;
-}
-
-// ---- connector road: a straight road from the ring road to the foot of the mountain
-const CONN = (() => {
-  const Q = roadPoint(Math.atan2(MTN.z, MTN.x)), S0 = spiralPoint(0);
-  return { ax: Q.x, az: Q.z, bx: S0.x, bz: S0.z, half: 6.5, hA: hills(Q.x, Q.z) * 0.2, hB: mtnProfile(SP.R0) };
-})();
-CONN.dx = CONN.bx - CONN.ax; CONN.dz = CONN.bz - CONN.az; CONN.len = Math.hypot(CONN.dx, CONN.dz);
-function connQuery(x, z, out) {
-  const t = clamp(((x - CONN.ax) * CONN.dx + (z - CONN.az) * CONN.dz) / (CONN.len * CONN.len), 0, 1);
-  out.d = Math.hypot(x - (CONN.ax + CONN.dx * t), z - (CONN.az + CONN.dz * t)); out.hc = CONN.hA + (CONN.hB - CONN.hA) * t; out.t = t;
-  return out;
-}
-
-// ---- jump ramps baked into the ground height
-const mkRamp = (x, z, tx, tz, len, hw, h) => ({ x, z, tx, tz, nx: tz, nz: -tx, len, hw, h });
-const RAMPS = [0.9, 2.3, 3.7, 5.0].map(t => { const p = roadPoint(t); return mkRamp(p.x, p.z, p.tx, p.tz, 17, 5.2, 4.4); });
-const SUMMIT_ANGLE = SP.t0 + SP.T + Math.PI;           // a huge jump off the summit, pointing away from where the road arrives
-RAMPS.push(mkRamp(MTN.x + Math.cos(SUMMIT_ANGLE) * 34, MTN.z + Math.sin(SUMMIT_ANGLE) * 34, Math.cos(SUMMIT_ANGLE), Math.sin(SUMMIT_ANGLE), 14, 5.5, 3.4));
+// Jump ramps baked into the ground height
+const RAMPS = [0.9, 2.3, 3.7, 5.0].map(t => {
+  const p = roadPoint(t); return { x: p.x, z: p.z, tx: p.tx, tz: p.tz, nx: p.nx, nz: p.nz, len: 17, hw: 5.2, h: 4.4 };
+});
 function rampInfo(x, z, out) {
   out.h = 0; out.u = 0;
   for (const r of RAMPS) {
-    const dx = x - r.x, dz = z - r.z, u = dx * r.tx + dz * r.tz;
-    if (u < 0 || u > r.len) continue;
-    const w = dx * r.nx + dz * r.nz;
-    if (Math.abs(w) < r.hw + 1.5) { const s = 1 - smoothstep(r.hw - 0.5, r.hw + 1.5, Math.abs(w)); if (s > 0) { out.h += r.h * (u / r.len) * s; out.u = u; } }
+    const dx = x - r.x, dz = z - r.z;
+    const u = dx * r.tx + dz * r.tz, w = dx * r.nx + dz * r.nz;
+    if (u >= 0 && u <= r.len && Math.abs(w) < r.hw + 1.5) {
+      const s = 1 - smoothstep(r.hw - 0.5, r.hw + 1.5, Math.abs(w));
+      if (s > 0) { out.h += r.h * (u / r.len) * s; out.u = u; }
+    }
   }
   return out.h;
 }
-const _ri = { h: 0, u: 0 }, _q1 = { d: 0, hc: 0, t: 0 }, _q2 = { d: 0, hc: 0, t: 0 };
+const _ri = { h: 0, u: 0 };
 
-// ---- the mountain range around the start area (a crossable range, not a wall)
-function ringRange(x, z, rM) {
-  const xx = (Math.hypot(x, z) - RING.c) / RING.hw;
-  if (xx <= -1 || xx >= 1) return 0;
-  const f = Math.pow(1 - xx * xx, 1.3), n = 0.55 + 0.9 * vnoise(x * 0.006 + 300, z * 0.006 - 120);
-  const crag = (vnoise(x * 0.04, z * 0.04 + 9) - 0.5) * 10 * f;
-  return (RING.H * f * n + crag) * smoothstep(MTN.Rb - 40, MTN.Rb + 160, rM);     // fades into the big mountain's foot
-}
-// ---- lakes: one big one near the start, and more out in the wilderness
-function lakeAmount(x, z, rM) {
-  const d = Math.hypot(x - LK.x, z - LK.z) + (vnoise(x * 0.02 + 5, z * 0.02 + 5) - 0.5) * 34;
-  const a = 1 - smoothstep(LK.R - 8, LK.R + 46, d);
-  const far = smoothstep(0.62, 0.74, vnoise(x * 0.0021 + 77, z * 0.0021 - 31)) * smoothstep(520, 640, Math.hypot(x, z)) * smoothstep(MTN.Rb + 40, MTN.Rb + 200, rM);
-  return Math.max(a * smoothstep(15, 45, Math.abs(ringDist(x, z))), far);      // never wet the ring road
-}
-
-// ---- THE height of the ground at any point in the world
 function heightAt(x, z) {
-  let base = hills(x, z);
-  base *= 1 - 0.8 * (1 - smoothstep(ROAD_HALF + 2, ROAD_HALF + 55, Math.abs(ringDist(x, z))));   // fields ease down to the road
-  let h = base;
-  const rM = Math.hypot(x - MTN.x, z - MTN.z);
-  if (rM < MTN.Rb + 60) {
-    const att = 0.35 + 0.65 * smoothstep(MTN.Rp + 5, MTN.Rb, rM), plat = smoothstep(MTN.Rp, MTN.Rp + 30, rM);
-    const crags = (vnoise(x * 0.045 + 7, z * 0.045 - 3) - 0.5) * 14 * smoothstep(MTN.Rp + 25, MTN.Rp + 70, rM) * (1 - smoothstep(MTN.Rb * 0.75, MTN.Rb, rM));
-    h = base * att * plat + mtnProfile(rM) + crags;
-  }
-  h += ringRange(x, z, rM);
-  const lk = lakeAmount(x, z, rM);
-  if (lk > 0) h += ((WL - 2.5 - 5 * lk) - h) * lk;      // dig the lake basin
-  spiralQuery(x, z, _q1);
-  if (_q1.d < SP.half + 10) h += (_q1.hc - h) * (1 - smoothstep(SP.half + 1.5, SP.half + 10, _q1.d));    // carve the mountain road into the slope
-  connQuery(x, z, _q2);
-  if (_q2.d < CONN.half + 24) h += (_q2.hc - h) * (1 - smoothstep(CONN.half + 1.5, CONN.half + 24, _q2.d));
+  let h = (vnoise(x * 0.008 + 10, z * 0.008) - 0.5) * 26
+        + (vnoise(x * 0.022, z * 0.022 + 30) - 0.5) * 9
+        + (vnoise(x * 0.09 + 5, z * 0.09 + 9) - 0.5) * 0.5;
+  const d = Math.abs(roadDist(x, z));
+  h *= 1 - 0.8 * (1 - smoothstep(ROAD_HALF + 2, ROAD_HALF + 55, d));   // fields ease gently down to the road (no cliffs)
+  const rho = Math.hypot(x, z);
+  h += smoothstep(280, 345, rho) * (48 + 22 * vnoise(x * 0.03 + 100, z * 0.03)) + Math.max(0, rho - 345) * 0.6;  // mountain ring
   return h + rampInfo(x, z, _ri);
 }
 
-/* ---- chunks: the ground is built in 96 m squares around you, and thrown away behind you ---- */
-const chunks = new Map(), CKEY = (cx, cz) => cx * 131072 + cz;
-function vh(ix, iz) {                    // height of one grid corner
-  const cx = Math.floor(ix / CS), cz = Math.floor(iz / CS), c = chunks.get(CKEY(cx, cz));
-  if (c && c.H) return c.H[(iz - cz * CS) * (CS + 1) + (ix - cx * CS)];
-  return heightAt(ix * CELL, iz * CELL);
-}
-function groundH(x, z) {                 // physics + visuals both use this: exact height of the triangles you see
-  const fx = x / CELL, fz = z / CELL, ix = Math.floor(fx), iz = Math.floor(fz), tx = fx - ix, tz = fz - iz;
-  const h00 = vh(ix, iz), h10 = vh(ix + 1, iz), h01 = vh(ix, iz + 1), h11 = vh(ix + 1, iz + 1);
+// Pre-compute the ground into a grid; the physics reads this same grid,
+// so the wheels sit exactly on what you see.
+const H = new Float32Array(N1 * N1);
+for (let iz = 0; iz < N1; iz++) for (let ix = 0; ix < N1; ix++) H[iz * N1 + ix] = heightAt(-WORLD + ix * CELL, -WORLD + iz * CELL);
+
+function groundH(x, z) {
+  let fx = clamp((x + WORLD) / CELL, 0, N - 0.001), fz = clamp((z + WORLD) / CELL, 0, N - 0.001);
+  const ix = fx | 0, iz = fz | 0, tx = fx - ix, tz = fz - iz, i = iz * N1 + ix;
+  const h00 = H[i], h10 = H[i + 1], h01 = H[i + N1], h11 = H[i + N1 + 1];
   if (tx + tz <= 1) return h00 + (h10 - h00) * tx + (h01 - h00) * tz;
   return h11 + (h01 - h11) * (1 - tx) + (h10 - h11) * (1 - tz);
 }
-const surfH = (x, z) => Math.max(groundH(x, z), WSURF);       // the ground, or the water surface if there is a lake here
-function slopeAt(x, z) { const a = (groundH(x + 1.5, z) - groundH(x - 1.5, z)) / 3, b = (groundH(x, z + 1.5) - groundH(x, z - 1.5)) / 3; return Math.hypot(a, b); }
 
-const _surf = { road: 1, gravel: 0, water: 0, grip: 1, drive: 1, roll: 1, brake: 1 };
-function surfaceAt(x, z) {               // tarmac grips, gravel slides a bit, grass is slippery and draggy
-  const tar = 1 - smoothstep(ROAD_HALF, ROAD_HALF + 2.5, Math.abs(ringDist(x, z)));
-  spiralQuery(x, z, _q1); connQuery(x, z, _q2);
-  const gr = 1 - smoothstep(SP.half, SP.half + 2.5, Math.min(_q1.d, _q2.d));
-  const any = Math.max(tar, gr);
-  const wat = smoothstep(WL + 0.4, WL - 0.5, groundH(x, z));
-  _surf.water = wat;
-  _surf.road = any * (1 - wat); _surf.gravel = gr * (1 - tar) * (1 - wat);
-  _surf.grip = 0.68 + 0.32 * tar + 0.17 * gr * (1 - tar); _surf.drive = 0.78 + 0.22 * tar + 0.14 * gr * (1 - tar);
-  _surf.roll = 1 + 2.2 * (1 - any) + 0.3 * _surf.gravel + 2.5 * wat; _surf.brake = 0.8 + 0.2 * tar + 0.1 * gr;
-  _surf.grip *= 1 - 0.45 * wat; _surf.drive *= 1 - 0.4 * wat; _surf.brake *= 1 - 0.3 * wat;
+const _surf = { road: 1, grip: 1, drive: 1, roll: 1, brake: 1 };
+function surfaceAt(x, z) {              // tarmac grips well, grass is slippery and draggy
+  const road = 1 - smoothstep(ROAD_HALF, ROAD_HALF + 2.5, Math.abs(roadDist(x, z)));
+  _surf.road = road; _surf.grip = 0.68 + 0.32 * road; _surf.drive = 0.78 + 0.22 * road;
+  _surf.roll = 1 + 2.2 * (1 - road); _surf.brake = 0.8 + 0.2 * road;
   return _surf;
 }
-function roadD(x, z) { spiralQuery(x, z, _q1); connQuery(x, z, _q2); return Math.min(Math.abs(ringDist(x, z)), _q1.d, _q2.d); }
+
+// ---- terrain mesh: one flat-coloured triangle at a time (low-poly look)
+(function buildTerrain() {
+  const tris = N * N * 2;
+  const pos = new Float32Array(tris * 9), col = new Float32Array(tris * 9);
+  const c = new THREE.Color();
+  let p = 0;
+  const GRASS = [0x5fa83f, 0x4f9a37, 0x6bb046, 0x58a03c];
+  function put(ax, ay, az, bx, by, bz, cx, cy, cz) {
+    pos[p] = ax; pos[p + 1] = ay; pos[p + 2] = az; pos[p + 3] = bx; pos[p + 4] = by; pos[p + 5] = bz; pos[p + 6] = cx; pos[p + 7] = cy; pos[p + 8] = cz;
+    // face normal -> steepness
+    const ux = bx - ax, uy = by - ay, uz = bz - az, vx = cx - ax, vy = cy - ay, vz = cz - az;
+    const nx = uy * vz - uz * vy, ny = uz * vx - ux * vz, nz = ux * vy - uy * vx;
+    const nl = Math.hypot(nx, ny, nz) || 1, steep = Math.sqrt(Math.max(0, 1 - (ny / nl) * (ny / nl)));
+    const mx = (ax + bx + cx) / 3, mz = (az + bz + cz) / 3, my = (ay + by + cy) / 3;
+    const rn = hash2(Math.round(mx * 10), Math.round(mz * 10)), rn2 = hash2(Math.round(mx * 7) + 5, Math.round(mz * 7) - 3);
+    const d = Math.abs(roadDist(mx, mz));
+    const rh = rampInfo(mx, mz, _ri);
+    if (rh > 0.15) c.setHex(Math.floor(_ri.u / 3) % 2 ? 0xf2b13a : 0xd9482b);
+    else if (d < ROAD_HALF - 0.3) c.setHex(rn2 > 0.5 ? 0x555a66 : 0x4d525d);
+    else if (d < ROAD_HALF + 1.8) c.setHex(0x8d7f62);
+    else if (my > 60 || (my > 36 && steep > 0.25)) c.setHex(my > 66 ? 0xeef3f8 : 0x8c8f98);
+    else if (steep > 0.6) c.setHex(rn > 0.5 ? 0x8b6a45 : 0x7d6040);
+    else if (steep > 0.4 && rn > 0.4) c.setHex(0x6f8a3c);
+    else c.setHex(GRASS[Math.floor(rn * 4) & 3]);
+    const sh = 0.93 + 0.14 * rn;
+    for (let k = 0; k < 3; k++) { col[p + k * 3] = c.r * sh; col[p + k * 3 + 1] = c.g * sh; col[p + k * 3 + 2] = c.b * sh; }
+    p += 9;
+  }
+  for (let iz = 0; iz < N; iz++) for (let ix = 0; ix < N; ix++) {
+    const x0 = -WORLD + ix * CELL, x1 = x0 + CELL, z0 = -WORLD + iz * CELL, z1 = z0 + CELL;
+    const i = iz * N1 + ix, h00 = H[i], h10 = H[i + 1], h01 = H[i + N1], h11 = H[i + N1 + 1];
+    put(x0, h00, z0, x0, h01, z1, x1, h10, z0);     // triangle A (00, 01, 10)
+    put(x1, h10, z0, x0, h01, z1, x1, h11, z1);     // triangle B (10, 01, 11)
+  }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  g.setAttribute('color', new THREE.BufferAttribute(col, 3));
+  g.computeVertexNormals();               // not indexed -> flat faces
+  const m = new THREE.Mesh(g, new THREE.MeshLambertMaterial({ vertexColors: true }));
+  m.receiveShadow = true; m.frustumCulled = false;
+  scene.add(m);
+})();
 
 /* ---- lights, sky, clouds ---- */
-scene.add(new THREE.HemisphereLight(0xdcecff, 0x5b6a3a, 0.85));
-const sun = new THREE.DirectionalLight(0xfff0d0, 0.9);
+scene.add(new THREE.HemisphereLight(0xdcecff, 0x5b6a3a, 0.95));
+const sun = new THREE.DirectionalLight(0xfff0d0, 1.0);
 const SUN_DIR = new THREE.Vector3(0.55, 0.8, 0.35).normalize();
 sun.castShadow = true;
 sun.shadow.mapSize.set(1024, 1024);
@@ -4311,301 +4305,91 @@ const cloudGeo = (() => {
 const clouds = new THREE.Mesh(cloudGeo, new THREE.MeshBasicMaterial({ vertexColors: true, fog: false }));
 clouds.frustumCulled = false; scene.add(clouds);
 
+/* ---- trees, rocks, houses, road paint ---- */
+const colliders = [];
+const buckets = new Map(); const BK = 16;
+const bkey = (ix, iz) => (ix + 100) * 1000 + (iz + 100);
+function addCollider(c) {
+  colliders.push(c);
+  const k = bkey(Math.floor(c.x / BK), Math.floor(c.z / BK));
+  if (!buckets.has(k)) buckets.set(k, []); buckets.get(k).push(c);
+}
+function nearCollider(x, z, r) {
+  const bx = Math.floor(x / BK), bz = Math.floor(z / BK);
+  for (let i = -1; i <= 1; i++) for (let j = -1; j <= 1; j++) {
+    const b = buckets.get(bkey(bx + i, bz + j)); if (!b) continue;
+    for (const c of b) if (Math.hypot(c.x - x, c.z - z) < r + (c.r || 3)) return true;
+  }
+  return false;
+}
 
-
-/* ---- little building blocks for trees, rocks and houses ---- */
-const tplOf = geo => ({ pos: geo.attributes.position.array, col: geo.attributes.color.array });
-const boxG = new THREE.BoxGeometry(1, 1, 1);
-const TPL = {
-  pine: tplOf(mergeParts([
+(function buildObjects() {
+  const rnd = mulberry32(1337), spawn = roadPoint(0);
+  const box = new THREE.BoxGeometry(1, 1, 1);
+  const pineGeo = mergeParts([
     { geo: new THREE.CylinderGeometry(0.25, 0.32, 1.7, 5), color: 0x6b4a2b, pos: [0, 0.85, 0] },
     { geo: new THREE.ConeGeometry(2.1, 3.2, 6), color: 0x2e7a3a, pos: [0, 3.1, 0] },
     { geo: new THREE.ConeGeometry(1.6, 2.9, 6), color: 0x35853f, pos: [0, 4.7, 0] },
-    { geo: new THREE.ConeGeometry(1.05, 2.5, 6), color: 0x3d9247, pos: [0, 6.2, 0] }])),
-  round: tplOf(mergeParts([
+    { geo: new THREE.ConeGeometry(1.05, 2.5, 6), color: 0x3d9247, pos: [0, 6.2, 0] }]);
+  const roundGeo = mergeParts([
     { geo: new THREE.CylinderGeometry(0.3, 0.38, 2.2, 5), color: 0x73502e, pos: [0, 1.1, 0] },
     { geo: new THREE.IcosahedronGeometry(2.0, 0), color: 0x5ca83c, pos: [0, 3.6, 0], scale: [1, 0.9, 1] },
-    { geo: new THREE.IcosahedronGeometry(1.3, 0), color: 0x6cb946, pos: [0.9, 4.8, 0.3] }])),
-  rock: tplOf(mergeParts([{ geo: new THREE.DodecahedronGeometry(1, 0), color: 0x8e9098, pos: [0, 0.3, 0], scale: [1, 0.7, 0.9] }])),
-  house: tplOf(mergeParts([
-    { geo: boxG, color: 0xe3d3b0, pos: [0, 0.75, 0], scale: [6, 5.5, 5] },
+    { geo: new THREE.IcosahedronGeometry(1.3, 0), color: 0x6cb946, pos: [0.9, 4.8, 0.3] }]);
+  const rockGeo = mergeParts([{ geo: new THREE.DodecahedronGeometry(1, 0), color: 0x8e9098, pos: [0, 0.3, 0], scale: [1, 0.7, 0.9] }]);
+  const houseGeo = mergeParts([
+    { geo: box, color: 0xe3d3b0, pos: [0, 0.75, 0], scale: [6, 5.5, 5] },
     { geo: new THREE.ConeGeometry(4.6, 2.6, 4), color: 0xb5472f, pos: [0, 4.8, 0], rot: [0, Math.PI / 4, 0], scale: [1, 1, 0.85] },
-    { geo: boxG, color: 0x4a3322, pos: [0, 0.5, 2.52], scale: [1.1, 2.2, 0.1] },
-    { geo: boxG, color: 0x8fc4e8, pos: [-1.9, 1.6, 2.52], scale: [1.0, 1.0, 0.1] },
-    { geo: boxG, color: 0x8fc4e8, pos: [1.9, 1.6, 2.52], scale: [1.0, 1.0, 0.1] }])),
-  cherry: tplOf(mergeParts([
-    { geo: new THREE.CylinderGeometry(0.28, 0.42, 2.6, 5), color: 0x764120, pos: [0, 1.3, 0], rot: [0.08, 0, 0.1] },
-    { geo: new THREE.CylinderGeometry(0.16, 0.24, 1.8, 5), color: 0x764120, pos: [0.7, 2.7, 0.2], rot: [0, 0, -0.7] },
-    { geo: new THREE.IcosahedronGeometry(2.3, 0), color: 0xffcfe2, pos: [0, 4.3, 0], scale: [1.15, 0.85, 1.15] },
-    { geo: new THREE.IcosahedronGeometry(1.6, 0), color: 0xff80b0, pos: [1.5, 3.7, 0.5] },
-    { geo: new THREE.IcosahedronGeometry(1.4, 0), color: 0xffcfe2, pos: [-1.4, 3.5, -0.6] },
-    { geo: new THREE.IcosahedronGeometry(1.0, 0), color: 0xff80b0, pos: [-0.3, 5.5, 0.4] },
-    { geo: new THREE.IcosahedronGeometry(0.9, 0), color: 0x567023, pos: [0.6, 3.0, -1.5] }])),
-  box: tplOf(mergeParts([{ geo: boxG, color: 0xffffff }]))
-};
-function addInst(out, tpl, x, y, z, ry, sx, sy, sz, rx, color) {      // copy a shape into a chunk's big mesh
-  const p = tpl.pos, cl = tpl.col, cs = Math.cos(ry), sn = Math.sin(ry), cX = Math.cos(rx || 0), sX = Math.sin(rx || 0);
-  for (let i = 0; i < p.length; i += 3) {
-    let vx = p[i] * sx, vy = p[i + 1] * sy, vz = p[i + 2] * sz;
-    if (rx) { const ty = vy * cX - vz * sX, tz = vy * sX + vz * cX; vy = ty; vz = tz; }
-    out.pos.push(x + vx * cs + vz * sn, y + vy, z - vx * sn + vz * cs);
-    if (color) out.col.push(color.r, color.g, color.b); else out.col.push(cl[i], cl[i + 1], cl[i + 2]);
-  }
-}
-function meshFrom(out, cast) {
-  if (!out.pos.length) return null;
-  const g = new THREE.BufferGeometry();
-  g.setAttribute('position', new THREE.Float32BufferAttribute(out.pos, 3));
-  g.setAttribute('color', new THREE.Float32BufferAttribute(out.col, 3));
-  g.computeVertexNormals();
-  const m = new THREE.Mesh(g, new THREE.MeshLambertMaterial({ vertexColors: true }));
-  m.castShadow = cast; m.receiveShadow = true; scene.add(m); return m;
-}
+    { geo: box, color: 0x4a3322, pos: [0, 0.5, 2.52], scale: [1.1, 2.2, 0.1] },
+    { geo: box, color: 0x8fc4e8, pos: [-1.9, 1.6, 2.52], scale: [1.0, 1.0, 0.1] },
+    { geo: box, color: 0x8fc4e8, pos: [1.9, 1.6, 2.52], scale: [1.0, 1.0, 0.1] }]);
+  const pines = [], rounds = [], rocks = [], houses = [];
 
-/* ---- road paint + guard posts: worked out once, handed to whichever chunk they fall in ---- */
-const PAINT = new Map(), POSTS = new Map();
-function pushTo(map, o) { const k = CKEY(Math.floor(o.x / CHUNK), Math.floor(o.z / CHUNK)); let a = map.get(k); if (!a) { a = []; map.set(k, a); } a.push(o); }
-(function buildPaint() {
-  const W = new THREE.Color(0xf0eedd), Y = new THREE.Color(0xe8d070);
-  for (let t = 0; t < TAU;) { const P = roadPoint(t); pushTo(PAINT, { x: P.x, z: P.z, tx: P.tx, tz: P.tz, len: 3.4, wid: 0.32, col: W }); t += 11 / Math.hypot(roadR(t), roadDR(t)); }
-  for (let t = 0; t < TAU;) {
-    const P = roadPoint(t), ds = Math.hypot(roadR(t), roadDR(t));
-    for (const off of [ROAD_HALF - 0.7, -(ROAD_HALF - 0.7)]) pushTo(PAINT, { x: P.x + P.nx * off, z: P.z + P.nz * off, tx: P.tx, tz: P.tz, len: 4.4, wid: 0.3, col: W });
-    t += 4 / ds;
-  }
-  for (let t = 0; t < SP.T;) { const P = spiralPoint(t); pushTo(PAINT, { x: P.x, z: P.z, tx: P.tx, tz: P.tz, len: 3.4, wid: 0.32, col: Y }); t += 11 / Math.hypot(P.rho, SP.a); }
-  for (let t = 1.5; t < SP.T;) { const P = spiralPoint(t), off = SP.half + 1.2; pushTo(POSTS, { x: P.x + P.c * off, z: P.z + P.s * off }); t += 13 / Math.hypot(P.rho, SP.a); }
-  const ux = CONN.dx / CONN.len, uz = CONN.dz / CONN.len;
-  for (let s = 14; s < CONN.len - 6; s += 11) pushTo(PAINT, { x: CONN.ax + ux * s, z: CONN.az + uz * s, tx: ux, tz: uz, len: 3.4, wid: 0.32, col: Y });
-})();
-
-/* ---- building one chunk of ground ---- */
-const GRASS = [0x5fa83f, 0x4f9a37, 0x6bb046, 0x58a03c], _c = new THREE.Color();
-function paintTri(mx, my, mz, steep, rn, rn2) {
-  const dR = Math.abs(ringDist(mx, mz)); spiralQuery(mx, mz, _q1); connQuery(mx, mz, _q2);
-  const dP = Math.min(_q1.d, _q2.d), rM = Math.hypot(mx - MTN.x, mz - MTN.z), rh = rampInfo(mx, mz, _ri);
-  if (rh > 0.15) _c.setHex(Math.floor(_ri.u / 3) % 2 ? 0xf2b13a : 0xd9482b);
-  else if (dR < ROAD_HALF - 0.3) _c.setHex(rn2 > 0.5 ? 0x555a66 : 0x4d525d);
-  else if (dR < ROAD_HALF + 1.8) _c.setHex(0x8d7f62);
-  else if (dP < SP.half - 0.3) _c.setHex(rn2 > 0.5 ? 0x8c7f66 : 0x82765e);
-  else if (dP < SP.half + 1.5) _c.setHex(0x665b48);
-  else if (my < WL - 3) _c.setHex(0x2f6f8e);                                                    // deep lake bed
-  else if (my < WL - 0.5) _c.setHex(rn > 0.5 ? 0x4f8fa0 : 0x5a9aa6);                           // shallow lake bed
-  else if (my < WL + 1.1) _c.setHex(rn > 0.5 ? 0xd9c98a : 0xcdbd7c);                           // beach
-  else if (rM < MTN.Rp + 8) _c.setHex(rn > 0.5 ? 0x7d849a : 0x727a90);                       // summit stone
-  else if (my > 105) _c.setHex(rn > 0.3 ? 0xc6d2e0 : 0xb7c4d4);                                // snow
-  else if (my > 70 || steep > 0.62) _c.setHex(rn > 0.5 ? 0x8c8f98 : 0x7b7e88);                // bare rock
-  else if (steep > 0.45) _c.setHex(rn > 0.5 ? 0x8b6a45 : 0x7d6040);
-  else if (my > 42) _c.setHex(rn > 0.5 ? 0x7c9a48 : 0x6f8e40);                                 // mountain meadow
-  else if (steep > 0.33 && rn > 0.4) _c.setHex(0x6f8a3c);
-  else _c.setHex(GRASS[Math.floor(rn * 4) & 3]);
-}
-function buildTerrain(c) {
-  const N1 = CS + 1, H = new Float32Array(N1 * N1), x0 = c.cx * CHUNK, z0 = c.cz * CHUNK;
-  for (let iz = 0; iz < N1; iz++) for (let ix = 0; ix < N1; ix++) H[iz * N1 + ix] = heightAt(x0 + ix * CELL, z0 + iz * CELL);
-  c.H = H;
-  const pos = new Float32Array(CS * CS * 18), col = new Float32Array(CS * CS * 18);
-  let p = 0;
-  function put(ax, ay, az, bx, by, bz, cx, cy, cz) {
-    pos[p] = ax; pos[p + 1] = ay; pos[p + 2] = az; pos[p + 3] = bx; pos[p + 4] = by; pos[p + 5] = bz; pos[p + 6] = cx; pos[p + 7] = cy; pos[p + 8] = cz;
-    const ux = bx - ax, uy = by - ay, uz = bz - az, vx = cx - ax, vy = cy - ay, vz = cz - az;
-    const nx = uy * vz - uz * vy, ny = uz * vx - ux * vz, nz = ux * vy - uy * vx, nl = Math.hypot(nx, ny, nz) || 1, steep = Math.sqrt(Math.max(0, 1 - (ny / nl) * (ny / nl)));
-    const mx = (ax + bx + cx) / 3, mz = (az + bz + cz) / 3, my = (ay + by + cy) / 3;
-    paintTri(mx, my, mz, steep, hash2(Math.round(mx * 10), Math.round(mz * 10)), hash2(Math.round(mx * 7) + 5, Math.round(mz * 7) - 3));
-    const sh = 0.93 + 0.14 * hash2(Math.round(mx * 10), Math.round(mz * 10));
-    for (let k = 0; k < 3; k++) { col[p + k * 3] = _c.r * sh; col[p + k * 3 + 1] = _c.g * sh; col[p + k * 3 + 2] = _c.b * sh; }
-    p += 9;
-  }
-  for (let iz = 0; iz < CS; iz++) for (let ix = 0; ix < CS; ix++) {
-    const xa = x0 + ix * CELL, xb = xa + CELL, za = z0 + iz * CELL, zb = za + CELL, i = iz * N1 + ix, h00 = H[i], h10 = H[i + 1], h01 = H[i + N1], h11 = H[i + N1 + 1];
-    put(xa, h00, za, xa, h01, zb, xb, h10, za);
-    put(xb, h10, za, xa, h01, zb, xb, h11, zb);
-  }
-  const g = new THREE.BufferGeometry();
-  g.setAttribute('position', new THREE.BufferAttribute(pos, 3)); g.setAttribute('color', new THREE.BufferAttribute(col, 3)); g.computeVertexNormals();
-  c.tm = new THREE.Mesh(g, new THREE.MeshLambertMaterial({ vertexColors: true })); c.tm.receiveShadow = true; scene.add(c.tm);
-}
-const SPAWN = roadPoint(0);
-function buildObjects(c) {
-  const rnd = mulberry32((c.cx * 73856093) ^ (c.cz * 19349663) ^ 0x9e3779b9), x0 = c.cx * CHUNK, z0 = c.cz * CHUNK;
-  const solid = { pos: [], col: [] }, flat = { pos: [], col: [] }, local = [];
-  const near = (x, z, r) => { for (const o of local) if (Math.hypot(o.x - x, o.z - z) < r + o.r) return true; return false; };
-  let trees = 0, rocks = 0, houses = 0;
-  for (let i = 0; i < 260; i++) {
-    const x = x0 + rnd() * CHUNK, z = z0 + rnd() * CHUNK, roll = rnd(), forest = vnoise(x * 0.02 + 3, z * 0.02 + 8);
-    if (roadD(x, z) < 11 || Math.hypot(x - SPAWN.x, z - SPAWN.z) < 22 || Math.hypot(x - MTN.x, z - MTN.z) < MTN.Rp + 45) continue;
-    const gy = groundH(x, z);
+  for (let i = 0; i < 12000; i++) {
+    const a = rnd() * Math.PI * 2, rr = Math.sqrt(rnd()) * 312, x = Math.cos(a) * rr, z = Math.sin(a) * rr;
+    if (Math.abs(roadDist(x, z)) < ROAD_HALF + 4) continue;
+    if (Math.hypot(x - spawn.x, z - spawn.z) < 22) continue;
+    const roll = rnd(), forest = vnoise(x * 0.02 + 3, z * 0.02 + 8);
     if (roll < 0.8) {
-      const lakeside = gy < WL + 9, grove = vnoise(x * 0.012 + 200, z * 0.012 - 50) > 0.64;
-      if (trees >= 60 || gy > 68 || gy < WL + 1.6 || rnd() > forest * forest * 2.2 + (lakeside ? 0.4 : 0) || near(x, z, 3.2) || slopeAt(x, z) > 0.6) continue;
-      const s = 0.8 + rnd() * 0.8; trees++;
-      addInst(solid, (lakeside || grove) && rnd() < 0.85 ? TPL.cherry : (rnd() < 0.65 ? TPL.pine : TPL.round), x, gy - 0.12, z, rnd() * 6.28, s, s * (0.9 + rnd() * 0.3), s);
-      local.push({ x, z, r: 0.55 * s }); c.colliders.push({ t: 0, x, z, r: 0.55 * s, e: 0.3 });
+      if (pines.length + rounds.length >= 1400 || rnd() > forest * forest * 2.2 || nearCollider(x, z, 3.2)) continue;
+      const s = 0.8 + rnd() * 0.8, o = { x, y: groundH(x, z) - 0.12, z, ry: rnd() * 6.28, sx: s, sy: s * (0.9 + rnd() * 0.3), sz: s };
+      (rnd() < 0.65 ? pines : rounds).push(o);
+      addCollider({ t: 0, x, z, r: 0.55 * s, e: 0.3 });
     } else if (roll < 0.97) {
-      if (rocks >= 14 || gy > 135 || gy < WL - 0.3 || near(x, z, 2.5)) continue;
-      const s = 0.8 + rnd() * 1.6; rocks++;
-      addInst(solid, TPL.rock, x, gy - 0.2 * s, z, rnd() * 6.28, s, s * (0.7 + rnd() * 0.6), s * (0.8 + rnd() * 0.5));
-      local.push({ x, z, r: 0.9 * s }); c.colliders.push({ t: 0, x, z, r: 0.9 * s, e: 0.35 });
+      if (rocks.length >= 260 || nearCollider(x, z, 2.5)) continue;
+      const s = 0.8 + rnd() * 1.6, o = { x, y: groundH(x, z) - 0.2 * s, z, ry: rnd() * 6.28, sx: s, sy: s * (0.7 + rnd() * 0.6), sz: s * (0.8 + rnd() * 0.5) };
+      rocks.push(o); addCollider({ t: 0, x, z, r: 0.9 * s, e: 0.35 });
     } else {
-      if (houses >= 1 || gy > 60 || gy < WL + 2.5 || roadD(x, z) < 16 || near(x, z, 8)) continue;
-      const hh = [groundH(x + 4, z), groundH(x - 4, z), groundH(x, z + 4), groundH(x, z - 4), gy];
+      if (houses.length >= 10 || Math.hypot(x, z) > 285 || Math.abs(roadDist(x, z)) < 16 || nearCollider(x, z, 8)) continue;
+      const hh = [groundH(x + 4, z), groundH(x - 4, z), groundH(x, z + 4), groundH(x, z - 4), groundH(x, z)];
       if (Math.max(...hh) - Math.min(...hh) > 1.6) continue;
-      const ry = rnd() * 6.28; houses++;
-      addInst(solid, TPL.house, x, Math.min(...hh), z, ry, 1, 1, 1);
-      local.push({ x, z, r: 4 }); c.colliders.push({ t: 1, x, z, hx: 3, hz: 2.5, c: Math.cos(ry), s: Math.sin(ry), r: 4, e: 0.25 });
+      const ry = rnd() * 6.28; houses.push({ x, y: Math.min(...hh), z, ry, sx: 1, sy: 1, sz: 1 });
+      addCollider({ t: 1, x, z, hx: 3, hz: 2.5, c: Math.cos(ry), s: Math.sin(ry), r: 4, e: 0.25 });
     }
   }
-  const pa = PAINT.get(CKEY(c.cx, c.cz));
-  if (pa) for (const o of pa) {
-    const hF = groundH(o.x + o.tx * o.len / 2, o.z + o.tz * o.len / 2), hB = groundH(o.x - o.tx * o.len / 2, o.z - o.tz * o.len / 2);
-    addInst(flat, TPL.box, o.x, (hF + hB) / 2 + 0.09, o.z, Math.atan2(o.tx, o.tz), o.wid, 0.05, o.len * 1.02, -Math.atan2(hF - hB, o.len), o.col);
+  const mat = new THREE.MeshLambertMaterial({ vertexColors: true });
+  const dummy = new THREE.Object3D();
+  function instanced(geo, list) {
+    if (!list.length) return;
+    const m = new THREE.InstancedMesh(geo, mat, list.length);
+    list.forEach((o, i) => { dummy.position.set(o.x, o.y, o.z); dummy.rotation.set(0, o.ry, 0); dummy.scale.set(o.sx, o.sy, o.sz); dummy.updateMatrix(); m.setMatrixAt(i, dummy.matrix); });
+    m.castShadow = true; m.receiveShadow = true; m.frustumCulled = false; scene.add(m);
   }
-  const po = POSTS.get(CKEY(c.cx, c.cz));
-  if (po) for (const o of po) {
-    const gy = groundH(o.x, o.z);
-    addInst(solid, TPL.box, o.x, gy + 0.65, o.z, 0, 0.34, 1.3, 0.34, 0, _post1); addInst(solid, TPL.box, o.x, gy + 1.45, o.z, 0, 0.36, 0.35, 0.36, 0, _post2);
-    c.colliders.push({ t: 0, x: o.x, z: o.z, r: 0.35, e: 0.4 });
-  }
-  c.om = meshFrom(solid, true); c.pm = meshFrom(flat, false); c.objDone = true;
-}
-const _post1 = new THREE.Color(0xf2f2f2), _post2 = new THREE.Color(0xe0402a);
+  instanced(pineGeo, pines); instanced(roundGeo, rounds); instanced(rockGeo, rocks); instanced(houseGeo, houses);
 
-function getChunk(cx, cz) { const k = CKEY(cx, cz); let c = chunks.get(k); if (!c) { c = { cx, cz, H: null, tm: null, om: null, pm: null, colliders: [], objDone: false }; chunks.set(k, c); } return c; }
-function disposeChunk(c) { for (const m of [c.tm, c.om, c.pm]) if (m) { scene.remove(m); m.geometry.dispose(); m.material.dispose(); } chunks.delete(CKEY(c.cx, c.cz)); }
-const LOAD_R = 3; let lastCC = '', queue = [];
-function planChunks(px, pz) {
-  const ccx = Math.floor(px / CHUNK), ccz = Math.floor(pz / CHUNK);
-  queue = [];
-  for (let dz = -LOAD_R; dz <= LOAD_R; dz++) for (let dx = -LOAD_R; dx <= LOAD_R; dx++) {
-    const ring = Math.max(Math.abs(dx), Math.abs(dz)), d = Math.hypot(dx, dz), c = chunks.get(CKEY(ccx + dx, ccz + dz));
-    if (!c || !c.H) queue.push({ t: 0, cx: ccx + dx, cz: ccz + dz, ring, pr: ring * 2 + d * 0.01 });
-    if (!c || !c.objDone) queue.push({ t: 1, cx: ccx + dx, cz: ccz + dz, ring, pr: ring * 2 + 1 + d * 0.01 });
+  // road paint: dashed centre line + solid edge lines
+  const lineMat = new THREE.MeshLambertMaterial({ color: 0xf0eedd });
+  const dashes = [], edges = [];
+  function paint(list, t, off, len, wid) {
+    const P = roadPoint(t), x = P.x + P.nx * off, z = P.z + P.nz * off;
+    const hF = groundH(x + P.tx * len / 2, z + P.tz * len / 2), hB = groundH(x - P.tx * len / 2, z - P.tz * len / 2);
+    list.push({ x, y: (hF + hB) / 2 + 0.09, z, ry: Math.atan2(P.tx, P.tz), rx: -Math.atan2(hF - hB, len), len, wid });
   }
-  queue.sort((a, b) => a.pr - b.pr);
-  for (const c of Array.from(chunks.values())) if (Math.max(Math.abs(c.cx - ccx), Math.abs(c.cz - ccz)) > LOAD_R + 1) disposeChunk(c);
-}
-function runTask(k) { const c = getChunk(k.cx, k.cz); if (k.t === 0) { if (!c.H) buildTerrain(c); } else if (!c.objDone) { if (!c.H) buildTerrain(c); buildObjects(c); } }
-function updateWorld(px, pz, budget, maxRing) {
-  const key = Math.floor(px / CHUNK) + ',' + Math.floor(pz / CHUNK);
-  if (key !== lastCC) { lastCC = key; planChunks(px, pz); }
-  const t0 = performance.now();
-  while (queue.length) {
-    if (maxRing !== undefined && queue[0].ring > maxRing) break;
-    runTask(queue.shift());
-    if (budget !== undefined && performance.now() - t0 > budget) break;
-  }
-}
-function nearColliders(px, pz, out) {
-  out.length = 0;
-  const a = Math.floor((px - 6) / CHUNK), b = Math.floor((px + 6) / CHUNK), c0 = Math.floor((pz - 6) / CHUNK), d0 = Math.floor((pz + 6) / CHUNK);
-  for (let cx = a; cx <= b; cx++) for (let cz = c0; cz <= d0; cz++) { const c = chunks.get(CKEY(cx, cz)); if (c) for (const o of c.colliders) out.push(o); }
-  if (Math.hypot(px - MTN.x, pz - MTN.z) < 70) for (const o of summitColliders) out.push(o);
-  return out;
-}
-const summitColliders = [], _nc = [];
-
-/* =====================================================================
-   4b. THE SUMMIT: ancient stones, gates, a floating crystal and a beam of light
-   ===================================================================== */
-const summit = new THREE.Group(); scene.add(summit);
-const SUM = { crystal: null, inner: null, shards: [], flames: [], beams: [] };
-(function buildSummit() {
-  const Y = MTN.H, X = MTN.x, Z = MTN.z, lam = (c, e) => new THREE.MeshLambertMaterial({ color: c, flatShading: true, emissive: e || 0 });
-  const place = (m, x, y, z, ry) => { m.position.set(X + x, Y + y, Z + z); if (ry) m.rotation.y = ry; summit.add(m); return m; };
-  // floor rings
-  [[30, 0x59607f], [28.4, 0x8890ad], [21, 0x59607f], [19.4, 0x2b3150]].forEach(([r, c], i) => { const m = new THREE.Mesh(new THREE.CylinderGeometry(r, r, 0.3, 32), lam(c)); m.receiveShadow = true; place(m, 0, 0.15 + i * 0.07, 0); });
-  const rune = new THREE.Mesh(new THREE.RingGeometry(11, 12.6, 40), new THREE.MeshBasicMaterial({ color: 0x6cf0ff, side: THREE.DoubleSide })); rune.rotation.x = -Math.PI / 2; place(rune, 0, 0.5, 0);
-  const rune2 = new THREE.Mesh(new THREE.RingGeometry(15.5, 16.2, 40), new THREE.MeshBasicMaterial({ color: 0xff5fd8, side: THREE.DoubleSide })); rune2.rotation.x = -Math.PI / 2; place(rune2, 0, 0.5, 0);
-  // the stone circle (12 monoliths, each with a glowing rune)
-  for (let i = 0; i < 12; i++) {
-    const a = i / 12 * TAU, h = 8 + (i % 3) * 1.6, m = new THREE.Mesh(boxG, lam(0x8a90a0)); m.scale.set(2.6, h, 1.8); m.castShadow = true; m.receiveShadow = true;
-    place(m, Math.cos(a) * 34, h / 2 - 0.2, Math.sin(a) * 34, Math.PI / 2 - a);
-    const r = new THREE.Mesh(boxG, new THREE.MeshBasicMaterial({ color: i % 2 ? 0x6cf0ff : 0xff5fd8 })); r.scale.set(0.45, h * 0.55, 0.12); r.position.set(0, 0.05, -0.52); m.add(r);
-    r.scale.set(0.45 / 2.6, 0.55, 0.12 / 1.8);
-    summitColliders.push({ t: 0, x: X + Math.cos(a) * 34, z: Z + Math.sin(a) * 34, r: 1.7, e: 0.3 });
-  }
-  // three gates
-  [0.35, 3.1, 4.9].forEach(a => {
-    const g = new THREE.Group(); g.position.set(X + Math.cos(a) * 42, Y, Z + Math.sin(a) * 42); g.rotation.y = Math.PI / 2 - a; summit.add(g);
-    for (const s of [-1, 1]) { const p = new THREE.Mesh(boxG, lam(0x9aa1b3)); p.scale.set(1.9, 11, 1.9); p.position.set(s * 4.8, 5.3, 0); p.castShadow = true; g.add(p);
-      const cap = new THREE.Mesh(boxG, lam(0x6cf0ff, 0x2a8ca0)); cap.scale.set(2.3, 0.5, 2.3); cap.position.set(s * 4.8, 10.9, 0); g.add(cap);
-      summitColliders.push({ t: 0, x: g.position.x + Math.cos(g.rotation.y) * s * 4.8, z: g.position.z - Math.sin(g.rotation.y) * s * 4.8, r: 1.35, e: 0.3 }); }
-    const l = new THREE.Mesh(boxG, lam(0x8a90a0)); l.scale.set(12.6, 1.8, 2.4); l.position.set(0, 11.9, 0); l.castShadow = true; g.add(l);
-  });
-  // fallen columns
-  [[0.9, 22, 0.4], [2.2, 24, 1.3], [3.6, 20, 2.1], [5.3, 23, 0.8]].forEach(([a, r, yaw]) => {
-    const m = new THREE.Mesh(new THREE.CylinderGeometry(0.9, 0.9, 6.5, 8), lam(0x9aa1b3)); m.rotation.z = Math.PI / 2; const h = new THREE.Group(); h.rotation.y = yaw; h.add(m); h.position.set(X + Math.cos(a) * r, Y + 0.9, Z + Math.sin(a) * r); summit.add(h); m.castShadow = true;
-    for (const s of [-2.2, 0, 2.2]) summitColliders.push({ t: 0, x: h.position.x + Math.cos(yaw) * s, z: h.position.z - Math.sin(yaw) * s, r: 1.05, e: 0.3 });
-  });
-  // fire bowls
-  for (let i = 0; i < 6; i++) {
-    const a = (15 + i * 60) / 57.3, b = new THREE.Mesh(new THREE.CylinderGeometry(0.9, 0.7, 1.5, 6), lam(0x3b4260)); place(b, Math.cos(a) * 17.5, 0.75, Math.sin(a) * 17.5);
-    const f = new THREE.Mesh(boxG, new THREE.MeshBasicMaterial({ color: 0xff9a2a })); f.scale.set(0.8, 1, 0.8); place(f, Math.cos(a) * 17.5, 2.0, Math.sin(a) * 17.5); SUM.flames.push(f);
-    summitColliders.push({ t: 0, x: X + Math.cos(a) * 17.5, z: Z + Math.sin(a) * 17.5, r: 1, e: 0.3 });
-  }
-  // plinth + floating crystal
-  const pl = new THREE.Mesh(new THREE.CylinderGeometry(6, 7, 1.2, 14), lam(0x2b3350)); place(pl, 0, 0.7, 0); const pl2 = new THREE.Mesh(new THREE.CylinderGeometry(4.2, 5.2, 1, 14), lam(0x3b4570)); place(pl2, 0, 1.7, 0);
-  summitColliders.push({ t: 0, x: X, z: Z, r: 7.3, e: 0.3 });
-  const oct = (r) => new THREE.OctahedronGeometry(r, 0);
-  SUM.crystal = new THREE.Mesh(oct(3.2), new THREE.MeshLambertMaterial({ color: 0x58e0ff, emissive: 0x2288aa, flatShading: true })); SUM.crystal.scale.set(1, 1.9, 1); place(SUM.crystal, 0, 9, 0);
-  SUM.inner = new THREE.Mesh(oct(1.7), new THREE.MeshLambertMaterial({ color: 0xff5fd8, emissive: 0xaa2a90, flatShading: true })); SUM.inner.scale.set(1, 1.9, 1); place(SUM.inner, 0, 9, 0);
-  for (let i = 0; i < 6; i++) { const s = new THREE.Mesh(oct(0.75), new THREE.MeshLambertMaterial({ color: i % 2 ? 0x6cf0ff : 0xff5fd8, emissive: i % 2 ? 0x2288aa : 0xaa2a90, flatShading: true })); s.scale.set(1, 1.6, 1); place(s, 0, 9, 0); SUM.shards.push(s); }
-  // the beam of light you can see from miles away
-  const beam = (r0, r1, op) => { const m = new THREE.Mesh(new THREE.CylinderGeometry(r1, r0, 900, 10, 1, true), new THREE.MeshBasicMaterial({ color: 0x9ff6ff, transparent: true, opacity: op, depthWrite: false, fog: false, side: THREE.DoubleSide })); m.frustumCulled = false; place(m, 0, 450, 0); SUM.beams.push(m); };
-  beam(3.4, 2.6, 0.28); beam(1.4, 1.1, 0.55);
+  for (let t = 0; t < Math.PI * 2;) { const ds = Math.hypot(roadR(t), roadDR(t)); paint(dashes, t, 0, 3.4, 0.32); t += 11 / ds; }
+  for (let t = 0; t < Math.PI * 2;) { const ds = Math.hypot(roadR(t), roadDR(t)); paint(edges, t, ROAD_HALF - 0.7, 4.4, 0.3); paint(edges, t, -(ROAD_HALF - 0.7), 4.4, 0.3); t += 4 / ds; }
+  const all = dashes.concat(edges), lm = new THREE.InstancedMesh(box, lineMat, all.length), e = new THREE.Euler();
+  all.forEach((o, i) => { dummy.position.set(o.x, o.y, o.z); e.set(o.rx, o.ry, 0, 'YXZ'); dummy.quaternion.setFromEuler(e); dummy.scale.set(o.wid, 0.05, o.len * 1.02); dummy.updateMatrix(); lm.setMatrixAt(i, dummy.matrix); });
+  lm.receiveShadow = true; lm.frustumCulled = false; scene.add(lm);
 })();
-
-// a hazy far-away copy of the mountain, so you can see it from anywhere and head for it
-(function buildImpostor() {
-  const pts = []; for (let i = 0; i <= 48; i++) { const r = i / 48 * (MTN.Rb + 70); pts.push(new THREE.Vector2(r, mtnProfile(r) - 18)); }
-  pts.push(new THREE.Vector2(MTN.Rb + 70, -70));
-  const g = new THREE.LatheGeometry(pts, 28), p = g.attributes.position, cols = new Float32Array(p.count * 3), hz = new THREE.Color(HORIZON), c = new THREE.Color();
-  for (let i = 0; i < p.count; i++) {
-    const y = p.getY(i) + 18; c.setHex(y > 118 ? 0xc6d2e0 : y > 60 ? 0x8c8f98 : y > 25 ? 0x6f8e40 : 0x5fa83f); c.lerp(hz, 0.42);
-    cols[i * 3] = c.r; cols[i * 3 + 1] = c.g; cols[i * 3 + 2] = c.b;
-  }
-  g.setAttribute('color', new THREE.BufferAttribute(cols, 3));
-  const m = new THREE.Mesh(g, new THREE.MeshBasicMaterial({ vertexColors: true, fog: false, side: THREE.DoubleSide }));
-  m.position.set(MTN.x, 0, MTN.z); m.frustumCulled = false; scene.add(m);
-})();
-
-// the water: one big see-through plane that follows you around (its texture shimmers)
-const waterTex = (() => {
-  const cv = document.createElement('canvas'); cv.width = cv.height = 32; const g = cv.getContext('2d'), r = mulberry32(5);
-  g.fillStyle = '#3f86c8'; g.fillRect(0, 0, 32, 32);
-  for (let i = 0; i < 110; i++) { g.fillStyle = r() < 0.7 ? '#5aa2e0' : '#b4dcff'; g.fillRect((r() * 32) | 0, (r() * 32) | 0, r() < 0.5 ? 2 : 1, 1); }
-  const t = new THREE.CanvasTexture(cv); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.magFilter = THREE.NearestFilter; t.minFilter = THREE.NearestFilter; t.repeat.set(150, 150); return t;
-})();
-const water = new THREE.Mesh(new THREE.PlaneGeometry(1200, 1200), new THREE.MeshBasicMaterial({ map: waterTex, transparent: true, opacity: 0.74, depthWrite: false }));
-water.rotation.x = -Math.PI / 2; water.position.y = WL; water.renderOrder = 1; water.frustumCulled = false; scene.add(water);
-
-// a hazy far-away copy of the mountain range, so you can see it from the middle of the map
-(function buildRangeImpostor() {
-  const SEG = 120, RAD = 28, r0 = RING.c - RING.hw - 10, r1 = RING.c + RING.hw + 10, pos = [], col = [], idx = [], hz = new THREE.Color(HORIZON), c = new THREE.Color();
-  for (let i = 0; i <= SEG; i++) for (let j = 0; j <= RAD; j++) {
-    const a = i / SEG * TAU, r = r0 + (r1 - r0) * j / RAD, x = Math.cos(a) * r, z = Math.sin(a) * r;
-    const h = ringRange(x, z, 1e9) - 20; pos.push(x, h, z);
-    const y = h + 20; c.setHex(y > 105 ? 0xc6d2e0 : y > 40 ? 0x8c8f98 : y > 12 ? 0x6f8e40 : 0x5fa83f); c.lerp(hz, 0.42); col.push(c.r, c.g, c.b);
-  }
-  for (let i = 0; i < SEG; i++) for (let j = 0; j < RAD; j++) { const a = i * (RAD + 1) + j, b = a + RAD + 1; idx.push(a, b, a + 1, a + 1, b, b + 1); }
-  const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); g.setAttribute('color', new THREE.Float32BufferAttribute(col, 3)); g.setIndex(idx);
-  const m = new THREE.Mesh(g, new THREE.MeshBasicMaterial({ vertexColors: true, fog: false, side: THREE.DoubleSide })); m.frustumCulled = false; scene.add(m);
-})();
-
-const _ph = { t: 0 };
-function updateSummit(dt, time) {
-  if (!SUM.crystal) return;
-  const Y = MTN.H + 9 + Math.sin(time * 1.4) * 0.6;
-  SUM.crystal.position.y = Y; SUM.crystal.rotation.y += dt * 0.7; SUM.inner.position.y = Y; SUM.inner.rotation.y -= dt * 1.4;
-  SUM.shards.forEach((s, i) => { const a = time * 0.6 + i / 6 * TAU, r = 7 + Math.sin(time + i) * 0.8; s.position.set(MTN.x + Math.cos(a) * r, Y + Math.sin(time * 1.3 + i * 2) * 2.2, MTN.z + Math.sin(a) * r); s.rotation.y += dt * 2; });
-  SUM.flames.forEach((f, i) => { f.scale.y = 0.8 + 0.5 * Math.abs(Math.sin(time * 9 + i * 3)); f.position.y = MTN.H + 1.5 + f.scale.y * 0.5; f.rotation.y = time * 3; });
-  SUM.beams[0].material.opacity = 0.24 + 0.06 * Math.sin(time * 2);
-  const d = Math.hypot(car.x - MTN.x, car.z - MTN.z);
-  if (d < 160 && Math.random() < dt * 22) {
-    const a = Math.random() * TAU, r = 2 + Math.random() * 30;
-    spawnP(MTN.x + Math.cos(a) * r, MTN.H + 1 + Math.random() * 3, MTN.z + Math.sin(a) * r, (Math.random() - 0.5) * 0.6, 1.2 + Math.random(), (Math.random() - 0.5) * 0.6, 2.6, 0.22, Math.random() < 0.5 ? 0x6cf0ff : 0xff5fd8, -0.2, 0);
-  }
-}
 
 /* =====================================================================
    5. THE CAR (model + wheels that spin and steer)
@@ -4673,7 +4457,7 @@ const inp = { throttle: 0, brake: 0, steer: 0, hand: false };
 addEventListener('keydown', e => {
   if (['Space', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.code)) e.preventDefault();
   if (!e.repeat) {
-    
+    if (e.code === 'KeyR' && state === 'playing') resetCar();
     if (e.code === 'KeyP') { pixelMode = (pixelMode + 1) % PIXEL_HEIGHTS.length; resize(); }
     if (e.code === 'KeyM') { sound.muted = !sound.muted; if (sound.master) sound.master.gain.value = sound.muted ? 0 : 0.5; }
     if (e.code === 'KeyH') { const h = document.getElementById('help'); h.style.opacity = h.style.opacity === '0' ? '1' : '0'; }
@@ -4727,8 +4511,9 @@ function collide() {
   const c = car, sy = Math.sin(c.yaw), cy = Math.cos(c.yaw);
   for (let pass = 0; pass < 2; pass++) for (const off of CAR_CIRCLES) {
     const px = c.x + sy * off, pz = c.z + cy * off;
-    {
-      const b = nearColliders(px, pz, _nc);
+    const bx = Math.floor(px / BK), bz = Math.floor(pz / BK);
+    for (let i = -1; i <= 1; i++) for (let j = -1; j <= 1; j++) {
+      const b = buckets.get(bkey(bx + i, bz + j)); if (!b) continue;
       for (const o of b) {
         let nx, nz, pen;
         if (o.t === 0) {
@@ -4814,11 +4599,10 @@ function stepCar(dt) {
     let res = T.ROLL_RES * surf.roll + T.DRAG * vf * vf;
     if (c.throttle < 0.05 && c.brake < 0.05) res += T.ENGINE_BRAKE;
     if (inp.hand) res += T.HANDBRAKE;
-    if (surf.water > 0) res += surf.water * (1.2 + 0.02 * vf * vf);       // water drags hard
     res = Math.min(res, Math.abs(vf) / dt);
     aL -= Math.sign(vf) * res;
     // hills: gravity pulls you down the slope
-    const gx = (surfH(c.x + 0.8, c.z) - surfH(c.x - 0.8, c.z)) / 1.6, gz = (surfH(c.x, c.z + 0.8) - surfH(c.x, c.z - 0.8)) / 1.6;
+    const gx = (groundH(c.x + 0.8, c.z) - groundH(c.x - 0.8, c.z)) / 1.6, gz = (groundH(c.x, c.z + 0.8) - groundH(c.x, c.z - 0.8)) / 1.6;
     c.vx += (fx * aL - T.SLOPE_G * gx) * dt; c.vz += (fz * aL - T.SLOPE_G * gz) * dt;
 
     // ---- sideways grip: this is the heart of the feel.
@@ -4848,7 +4632,6 @@ function stepCar(dt) {
     let sk = clamp((c.slipSpeed - 1.3) / 3.5, 0, 1);
     if (c.brake > 0.7 && vf > 9) sk = Math.max(sk, 0.55);
     if (c.throttle > 0.9 && speed < 7 && surf.road > 0.5) sk = Math.max(sk, 0.35);
-    if (surf.water > 0.3) sk = 0;
     c.skid = sk;
     c.wheelAngle += (vf / WHEEL_R) * dt;
   } else { c.skid = 0; c.wheelAngle += (vf / WHEEL_R) * dt * 0.98; }
@@ -4856,6 +4639,8 @@ function stepCar(dt) {
   // ---- move
   c.x += c.vx * dt; c.z += c.vz * dt;
   collide();
+  const rho = Math.hypot(c.x, c.z);
+  if (rho > 350) { const k = 350 / rho; c.x *= k; c.z *= k; const nx = c.x / 350, nz = c.z / 350, vn = c.vx * nx + c.vz * nz; if (vn > 0) { c.vx -= 1.4 * vn * nx; c.vz -= 1.4 * vn * nz; } }
   updateVertical(dt);
 
   // ---- body wobble (weight transfer): springs that chase the forces
@@ -4873,7 +4658,7 @@ function updateVertical(dt) {
   const c = car, sy = Math.sin(c.yaw), cy = Math.cos(c.yaw), hl = TUNE.WHEELBASE / 2, hw = TUNE.TRACK / 2;
   const lx = cy, lz = -sy;                                      // car's left
   const px = (f, s) => c.x + sy * hl * f + lx * hw * s, pz = (f, s) => c.z + cy * hl * f + lz * hw * s;
-  const hFL = surfH(px(1, 1), pz(1, 1)), hFR = surfH(px(1, -1), pz(1, -1)), hRL = surfH(px(-1, 1), pz(-1, 1)), hRR = surfH(px(-1, -1), pz(-1, -1));
+  const hFL = groundH(px(1, 1), pz(1, 1)), hFR = groundH(px(1, -1), pz(1, -1)), hRL = groundH(px(-1, 1), pz(-1, 1)), hRR = groundH(px(-1, -1), pz(-1, -1));
   const hF = (hFL + hFR) / 2, hR = (hRL + hRR) / 2, gc = (hF + hR) / 2;
   const vyOld = c.vy;
   c.vy -= TUNE.GRAVITY * dt;
@@ -4978,18 +4763,9 @@ function updateEffects(dt) {
     for (let i = 0; i < 2; i++) {
       const gy = groundH(rearX[i], rearZ[i]) + 0.2;
       if (sk > 0.25 && onRoad) spawnP(rearX[i], gy, rearZ[i], (Math.random() - .5) * 1.5 - c.vx * 0.1, 0.8 + Math.random(), (Math.random() - .5) * 1.5 - c.vz * 0.1, 0.7, 0.36, 0xe6e6ea, -0.3, 1.3);
-      else if ((!onRoad || surf.gravel > 0.5) && speed > 5 && Math.random() < clamp(speed / 22, 0.2, 1)) spawnP(rearX[i], gy, rearZ[i], (Math.random() - .5) * 1.5, 0.6 + Math.random() * 1.2, (Math.random() - .5) * 1.5, 0.7, 0.38, 0xb7a672, -0.3, 1.2);
+      else if (!onRoad && speed > 5 && Math.random() < clamp(speed / 22, 0.2, 1)) spawnP(rearX[i], gy, rearZ[i], (Math.random() - .5) * 1.5, 0.6 + Math.random() * 1.2, (Math.random() - .5) * 1.5, 0.7, 0.38, 0xb7a672, -0.3, 1.2);
     }
   }
-  // splashes when driving through water
-  if (surf.water > 0.3 && c.grounded && speed > 1.5 && Math.random() < 0.9) {
-    for (let i = 0; i < 2; i++) {
-      const sx = c.x + sy * (i ? 1.6 : -1.2) + lx * (Math.random() - 0.5) * 1.6, sz = c.z + cy * (i ? 1.6 : -1.2) + lz * (Math.random() - 0.5) * 1.6;
-      spawnP(sx, WL + 0.2, sz, (Math.random() - .5) * 3 - c.vx * 0.15, 1.5 + Math.random() * 3 * Math.min(1, speed / 12), (Math.random() - .5) * 3 - c.vz * 0.15, 0.7, 0.22, Math.random() < 0.5 ? 0xe8f6ff : 0x9fd4ff, 9, 0.5);
-    }
-  }
-  if (surf.water > 0.5 && !updateEffects.wasWater && speed > 3) { sound.thump(Math.min(1, speed / 25)); shake = Math.min(1.4, shake + speed * 0.01); }
-  updateEffects.wasWater = surf.water > 0.5;
   updateParticles(dt);
 }
 
@@ -5005,7 +4781,7 @@ function updateCamera(dt) {
   cam.fx += (c.x - cam.fx) * damp(18, dt); cam.fz += (c.z - cam.fz) * damp(18, dt); cam.fy += (c.y - cam.fy) * damp(6, dt);
   const dist = 7.4 + speed * 0.045, h = 2.8 + speed * 0.01;
   const cx = cam.fx - Math.sin(cam.yaw) * dist, cz = cam.fz - Math.cos(cam.yaw) * dist;
-  let cyy = cam.fy + h; const gmin = Math.max(groundH(cx, cz) + 1.0, WL + 1.3); if (cyy < gmin) cyy = gmin;
+  let cyy = cam.fy + h; const gmin = groundH(cx, cz) + 1.0; if (cyy < gmin) cyy = gmin;
   const sh = shake + (surfaceAt(c.x, c.z).road < 0.5 ? Math.min(0.12, speed * 0.003) : 0);
   camera.position.set(cx + (Math.random() - .5) * sh * 0.25, cyy + (Math.random() - .5) * sh * 0.25, cz + (Math.random() - .5) * sh * 0.25);
   camera.lookAt(cam.fx + Math.sin(cam.yaw) * 3.5, cam.fy + 1.1, cam.fz + Math.cos(cam.yaw) * 3.5);
@@ -5073,20 +4849,118 @@ document.addEventListener('visibilitychange', () => { if (sound.ctx) document.hi
 /* =====================================================================
    11. HUD
    ===================================================================== */
-const $ = id => document.getElementById(id);
-const hudSpeed = $('speed'), hudGear = $('gear'), hudDrift = $('drift'), hudAlt = $('alt'), bar = $('bar');
+const hudSpeed = document.getElementById('speed'), hudGear = document.getElementById('gear'), hudDrift = document.getElementById('drift'), bar = document.getElementById('bar');
 const SEGS = 18; for (let i = 0; i < SEGS; i++) bar.appendChild(document.createElement('i'));
 const barEls = bar.children;
 function updateHud() {
-  const speed = Math.hypot(car.vx, car.vz);
-  hudSpeed.textContent = Math.round(speed * 3.6);
+  const speed = Math.hypot(car.vx, car.vz), kmh = Math.round(speed * 3.6);
+  hudSpeed.textContent = kmh;
   const lit = Math.round(clamp(speed / 46, 0, 1) * SEGS);
   for (let i = 0; i < SEGS; i++) barEls[i].style.background = i < lit ? (i > SEGS * 0.8 ? '#ff4a3a' : i > SEGS * 0.55 ? '#ffd84a' : '#5fe05a') : 'rgba(255,255,255,.18)';
   const vf = car.vx * Math.sin(car.yaw) + car.vz * Math.cos(car.yaw);
   let g = 0; while (g < 4 && speed > GEAR_TOPS[g]) g++;
   hudGear.textContent = vf < -0.5 ? 'REVERSE' : 'GEAR ' + (g + 1);
-  hudAlt.textContent = 'ALT ' + Math.max(0, Math.round(car.y)) + ' M';
   hudDrift.style.opacity = car.driftTime > 0.5 ? Math.min(1, (car.driftTime - 0.5) * 3) : 0;
+}
+
+
+
+/* =====================================================================
+   11b. THE OBJECTIVE: collect every star before the clock runs out
+   ===================================================================== */
+const $ = id => document.getElementById(id);
+let state = 'title', prevState = 'playing';       // title -> countdown -> playing -> ended   (paused can interrupt)
+const START_TIME = 75;
+const game = { time: START_TIME, elapsed: 0, got: 0, air: 0, score: 0, countdown: 0, lastN: 99, lastSec: 99, nearest: null, nearestDist: 0 };
+const stars = [];
+const starGroup = new THREE.Group(); scene.add(starGroup);
+
+(function buildStars() {
+  const rnd = mulberry32(4242), spots = [];
+  // 7 stars along the road
+  for (let i = 0; i < 7; i++) {
+    let t = 0.45 + i * 0.78;
+    for (let k = 0; k < 8; k++) { const P = roadPoint(t); if (RAMPS.every(r => Math.hypot(P.x - r.x, P.z - r.z) > 34)) break; t += 0.1; }
+    const P = roadPoint(t), off = (rnd() - 0.5) * 7;
+    spots.push({ x: P.x + P.nx * off, z: P.z + P.nz * off, air: false, bonus: 7 });
+  }
+  // 4 "air" stars hanging past the end of each ramp
+  for (const r of RAMPS) spots.push({ x: r.x + r.tx * (r.len + 8), z: r.z + r.tz * (r.len + 8), air: true, bonus: 10 });
+  // 9 stars out in the fields
+  for (let i = 0; i < 9; i++) for (let k = 0; k < 80; k++) {
+    const a = i / 9 * Math.PI * 2 + rnd() * 0.6, rr = 60 + rnd() * 215, x = Math.cos(a) * rr, z = Math.sin(a) * rr;
+    if (Math.abs(roadDist(x, z)) < 14 || nearCollider(x, z, 6)) continue;
+    spots.push({ x, z, air: false, bonus: 8 }); break;
+  }
+  // a 5-point star shape
+  const sh = new THREE.Shape();
+  for (let i = 0; i < 10; i++) { const r = i % 2 ? 0.55 : 1.3, a = i / 10 * Math.PI * 2 + Math.PI / 2, x = Math.cos(a) * r, y = Math.sin(a) * r; i ? sh.lineTo(x, y) : sh.moveTo(x, y); }
+  sh.closePath();
+  const starGeo = new THREE.ExtrudeGeometry(sh, { depth: 0.5, bevelEnabled: false }); starGeo.translate(0, 0, -0.25);
+  const beamGeo = new THREE.CylinderGeometry(0.22, 0.22, 80, 6, 1, true);
+  for (const sp of spots) {
+    const gy = groundH(sp.x, sp.z), y = sp.air ? gy + 6.3 : gy + 1.6;
+    const g = new THREE.Group(); g.position.set(sp.x, y, sp.z);
+    const outline = new THREE.Mesh(starGeo, new THREE.MeshBasicMaterial({ color: sp.air ? 0x0b5d86 : 0xa85200 })); outline.scale.set(1.25, 1.25, 0.8); g.add(outline);
+    g.add(new THREE.Mesh(starGeo, new THREE.MeshBasicMaterial({ color: sp.air ? 0x6cf0ff : 0xffdc3c })));
+    const beam = new THREE.Mesh(beamGeo, new THREE.MeshBasicMaterial({ color: sp.air ? 0x6cf0ff : 0xffe27a, transparent: true, opacity: 0.32, depthWrite: false }));
+    beam.position.set(sp.x, gy + 40, sp.z);
+    starGroup.add(g); starGroup.add(beam);
+    stars.push({ x: sp.x, y, z: sp.z, air: sp.air, bonus: sp.bonus, got: false, g, beam, ph: rnd() * 6.28 });
+  }
+})();
+
+function calcScore() { return game.got * 100 + game.air * 50; }
+function toast(txt, air) { const d = document.createElement('div'); d.className = 'toast px' + (air ? ' air' : ''); d.textContent = txt; $('toasts').appendChild(d); setTimeout(() => d.remove(), 1250); }
+function collectStar(s) {
+  s.got = true; s.g.visible = false; s.beam.visible = false;
+  game.got++; if (s.air) game.air++; game.time += s.bonus; game.score = calcScore();
+  for (let i = 0; i < 16; i++) { const a = i / 16 * Math.PI * 2; spawnP(s.x, s.y, s.z, Math.cos(a) * 7, 2 + Math.random() * 4, Math.sin(a) * 7, 0.6, 0.35, s.air ? 0x6cf0ff : 0xffdc3c, 6, 0); }
+  sound.chime(s.air);
+  toast('+' + s.bonus + 's' + (s.air ? '  AIR BONUS!' : ''), s.air);
+  if (game.got >= stars.length) endGame(true);
+}
+function updateStars(dt, time) {
+  let best = null, bd = 1e9;
+  for (const s of stars) {
+    if (s.got) continue;
+    s.g.rotation.y += dt * 2.4; s.g.position.y = s.y + Math.sin(time * 2.5 + s.ph) * 0.25;
+    const d = Math.hypot(s.x - car.x, s.z - car.z);
+    if (d < bd) { bd = d; best = s; }
+    if (state === 'playing') { const dy = Math.abs(s.y - (car.y + 0.9)); if (d < (s.air ? 5.5 : 3.8) && dy < (s.air ? 3.6 : 3.0)) collectStar(s); }
+  }
+  game.nearest = best; game.nearestDist = bd;
+}
+
+/* ---- mini-map ---- */
+const mm = $('minimap'), mg = mm.getContext('2d'), MM = 80, MS = 36 / 330;
+const mmRoad = document.createElement('canvas'); mmRoad.width = mmRoad.height = MM;
+(function () {
+  const g = mmRoad.getContext('2d');
+  g.fillStyle = 'rgba(255,255,255,.12)'; for (let a = 0; a < 360; a += 3) { const r = 335 * MS, t = a / 57.3; g.fillRect(MM / 2 + Math.cos(t) * r, MM / 2 + Math.sin(t) * r, 1, 1); }
+  g.fillStyle = '#8f98b0';
+  for (let t = 0; t < Math.PI * 2; t += 0.01) { const P = roadPoint(t); g.fillRect(Math.round(MM / 2 + P.x * MS - 1), Math.round(MM / 2 + P.z * MS - 1), 2, 2); }
+})();
+function drawMinimap() {
+  mg.clearRect(0, 0, MM, MM); mg.drawImage(mmRoad, 0, 0);
+  for (const s of stars) { if (s.got) continue; mg.fillStyle = s === game.nearest ? '#ffffff' : (s.air ? '#5ae8ff' : '#ffd23a'); mg.fillRect(Math.round(MM / 2 + s.x * MS - 1), Math.round(MM / 2 + s.z * MS - 1), 3, 3); }
+  const cx = MM / 2 + car.x * MS, cy = MM / 2 + car.z * MS, fx = Math.sin(car.yaw), fz = Math.cos(car.yaw), px = fz, pz = -fx;
+  mg.fillStyle = '#ff4a3a'; mg.beginPath();
+  mg.moveTo(cx + fx * 4.5, cy + fz * 4.5); mg.lineTo(cx - fx * 2.5 + px * 2.8, cy - fz * 2.5 + pz * 2.8); mg.lineTo(cx - fx * 2.5 - px * 2.8, cy - fz * 2.5 - pz * 2.8); mg.fill();
+}
+
+const fmtTime = t => { t = Math.max(0, t); const m = Math.floor(t / 60); return m + ':' + (t - m * 60).toFixed(1).padStart(4, '0'); };
+function updateGameHud() {
+  $('starN').textContent = game.got; $('starT').textContent = stars.length; $('scoreN').textContent = game.score;
+  const tm = $('timer'); tm.textContent = fmtTime(game.time); tm.classList.toggle('low', game.time < 10 && state === 'playing');
+  const n = game.nearest;
+  if (n) {
+    const a = Math.atan2(n.x - car.x, n.z - car.z), rel = angDiff(cam.yaw, a);
+    $('arrow').style.transform = 'rotate(' + (-rel * 57.2958) + 'deg)';
+    $('dist').textContent = Math.round(game.nearestDist) + ' m' + (n.air ? '  (JUMP!)' : '');
+    $('arrow').style.background = n.air ? '#5ae8ff' : '#ffd84a';
+  }
+  drawMinimap();
 }
 
 /* ---- logo: drawn from a tiny 5x7 pixel font so it is real pixel art ---- */
@@ -5113,13 +4987,8 @@ function drawLogo() {
   }
 }
 
-
-
-/* =====================================================================
-   11b. SCREENS: title, playing, paused
-   ===================================================================== */
-let state = 'title';
-function toast(txt) { const d = document.createElement('div'); d.className = 'toast px'; d.textContent = txt; $('toasts').appendChild(d); setTimeout(() => d.remove(), 2600); }
+/* ---- flow between screens ---- */
+function setHud(on) { for (const id of ['hudTop', 'arrowBox', 'minimap', 'speedBox']) $(id).classList.toggle('hidden', !on); }
 function placeAtSpawn() {
   const P = roadPoint(0), c = car;
   c.x = P.x; c.z = P.z; c.yaw = Math.atan2(P.tx, P.tz); c.vx = c.vz = c.vy = c.yawRate = 0; c.y = groundH(c.x, c.z); c.gcPrev = c.y;
@@ -5127,26 +4996,60 @@ function placeAtSpawn() {
   c.leanRoll = c.leanRollV = c.leanPitch = c.leanPitchV = c.heave = c.heaveV = 0; c.driftTime = 0; c.skid = 0;
   cam.yaw = c.yaw; cam.fx = c.x; cam.fy = c.y; cam.fz = c.z; cam.fov = 60;
 }
-function unstick() { const c = car; c.vx = c.vz = c.vy = c.yawRate = 0; c.y = groundH(c.x, c.z) + 0.4; c.gcPrev = c.y - 0.4; c.pitch = c.roll = 0; c.grounded = false; }
 function flash() { const f = $('fade'); f.style.transition = 'none'; f.style.opacity = 1; void f.offsetWidth; f.style.transition = 'opacity .45s'; f.style.opacity = 0; }
-function setHelp() { const h = $('help'); h.style.opacity = 1; clearTimeout(setHelp.t); setHelp.t = setTimeout(() => { h.style.opacity = 0; }, 12000); }
 function startGame() {
-  if (state !== 'title') return;
-  sound.init(); flash(); placeAtSpawn(); $('title').classList.add('hidden'); $('speedBox').classList.remove('hidden'); state = 'playing'; setHelp();
+  if (state !== 'title' && state !== 'ended' && state !== 'paused') return;
+  sound.init(); flash(); placeAtSpawn();
+  for (const s of stars) { s.got = false; s.g.visible = true; s.beam.visible = true; }
+  Object.assign(game, { time: START_TIME, elapsed: 0, got: 0, air: 0, score: 0, countdown: 3.6, lastN: 99, lastSec: 99 });
+  for (const id of ['title', 'end', 'pause']) $(id).classList.add('hidden');
+  setHud(true); state = 'countdown';
+  const h = $('help'); h.style.opacity = 1; clearTimeout(startGame.t); startGame.t = setTimeout(() => { h.style.opacity = 0; }, 11000);
 }
 function toTitle() {
-  flash(); state = 'title'; placeAtSpawn(); $('speedBox').classList.add('hidden'); $('help').style.opacity = 0;
-  $('pause').classList.add('hidden'); $('title').classList.remove('hidden');
+  flash(); state = 'title'; placeAtSpawn(); setHud(false); $('help').style.opacity = 0; $('countdown').textContent = '';
+  $('end').classList.add('hidden'); $('pause').classList.add('hidden'); $('title').classList.remove('hidden'); refreshBest();
+}
+function readBest() { try { return JSON.parse(localStorage.getItem('pixelDriveBest')) || { score: 0 }; } catch (e) { return { score: 0 }; } }
+function refreshBest() { const b = readBest(); $('best').textContent = b.score ? 'BEST SCORE  ' + b.score : 'NO SCORE YET - GO SET ONE!'; }
+function endGame(win) {
+  if (state !== 'playing') return;
+  state = 'ended';
+  if (win) game.score += Math.ceil(game.time) * 20;
+  const prev = readBest(), isBest = game.score > prev.score;
+  if (isBest) { try { localStorage.setItem('pixelDriveBest', JSON.stringify({ score: game.score })); } catch (e) { } }
+  $('endTitle').textContent = win ? 'ALL STARS COLLECTED!' : 'TIME UP!';
+  $('endTitle').style.color = win ? '#7dff7a' : '#ff6a4a';
+  $('eStars').textContent = game.got + '/' + stars.length; $('eAir').textContent = game.air; $('eTime').textContent = fmtTime(game.elapsed);
+  $('eScore').textContent = game.score; $('eBest').textContent = Math.max(game.score, prev.score);
+  $('newBest').classList.toggle('hidden', !isBest);
+  win ? sound.win() : sound.lose();
+  $('countdown').textContent = win ? 'CLEAR!' : 'TIME UP'; $('countdown').style.color = win ? '#7dff7a' : '#ff6a4a';
+  $('countdown').classList.remove('pop'); void $('countdown').offsetWidth; $('countdown').classList.add('pop');
+  setTimeout(() => { if (state === 'ended') $('end').classList.remove('hidden'); }, 1300);
 }
 function togglePause() {
-  if (state === 'playing') { state = 'paused'; $('pause').classList.remove('hidden'); if (sound.ctx) sound.ctx.suspend(); }
-  else if (state === 'paused') { state = 'playing'; $('pause').classList.add('hidden'); if (sound.ctx) sound.ctx.resume(); }
+  if (state === 'playing' || state === 'countdown') { prevState = state; state = 'paused'; $('pause').classList.remove('hidden'); if (sound.ctx) sound.ctx.suspend(); }
+  else if (state === 'paused') { state = prevState; $('pause').classList.add('hidden'); if (sound.ctx) sound.ctx.resume(); }
 }
-let summitShown = false;
-function checkSummit() {
-  const d = Math.hypot(car.x - MTN.x, car.z - MTN.z);
-  if (!summitShown && state === 'playing' && d < 45 && car.y > MTN.H - 5) { summitShown = true; toast('SUMMIT REACHED!'); sound.win(); }
-  else if (d > 220) summitShown = false;
+function countdownText(txt) { const el = $('countdown'); el.style.color = '#ffd84a'; el.textContent = txt; el.classList.remove('pop'); void el.offsetWidth; el.classList.add('pop'); }
+
+function gameTick(dt, time) {
+  updateStars(dt, time);
+  if (state === 'countdown') {
+    game.countdown -= dt;
+    const n = Math.ceil(game.countdown - 0.6);
+    if (n !== game.lastN) {
+      game.lastN = n;
+      if (n > 0) { countdownText(String(n)); sound.tone(440, 0.14, 'square', 0.15); }
+      else { countdownText('GO!'); sound.tone(880, 0.35, 'square', 0.16); state = 'playing'; }
+    }
+  } else if (state === 'playing') {
+    game.time -= dt; game.elapsed += dt;
+    const sec = Math.ceil(game.time); if (game.time < 10 && sec !== game.lastSec) { game.lastSec = sec; sound.tone(980, 0.06, 'square', 0.1); }
+    if (game.time <= 0) { game.time = 0; endGame(false); }
+  }
+  if (state !== 'title') updateGameHud();
 }
 function titleCamera(time) {
   const a = time * 0.28 + 0.6, r = 7.6;
@@ -5155,27 +5058,25 @@ function titleCamera(time) {
   if (camera.fov !== 52) { camera.fov = 52; camera.updateProjectionMatrix(); }
 }
 function initGameUI() {
-  drawLogo();
-  $('btnStart').onclick = startGame; $('btnResume').onclick = togglePause;
-  $('btnRestart').onclick = () => { placeAtSpawn(); flash(); togglePause(); }; $('btnQuit').onclick = () => { $('pause').classList.add('hidden'); if (sound.ctx) sound.ctx.resume(); toTitle(); };
+  drawLogo(); setHud(false); refreshBest();
+  $('btnStart').onclick = startGame; $('btnAgain').onclick = startGame; $('btnRestart').onclick = startGame;
+  $('btnTitle').onclick = toTitle; $('btnQuit').onclick = toTitle; $('btnResume').onclick = togglePause;
   $('btnHow').onclick = () => $('how').classList.toggle('hidden'); $('btnHowClose').onclick = () => $('how').classList.add('hidden');
   addEventListener('keydown', e => {
     if (e.repeat) return;
     if (state === 'title') { if (e.code === 'Enter' || e.code === 'Space') { e.preventDefault(); if (!$('how').classList.contains('hidden')) $('how').classList.add('hidden'); else startGame(); } }
-    else if (state === 'paused') { if (e.code === 'Enter' || e.code === 'Escape') togglePause(); else if (e.code === 'KeyT') { $('pause').classList.add('hidden'); if (sound.ctx) sound.ctx.resume(); toTitle(); } }
+    else if (state === 'ended') { if (e.code === 'Enter' && !$('end').classList.contains('hidden')) startGame(); else if (e.code === 'KeyT') toTitle(); }
+    else if (state === 'paused') { if (e.code === 'Enter' || e.code === 'Escape') togglePause(); else if (e.code === 'KeyT') toTitle(); }
     else if (e.code === 'Escape') togglePause();
-    else if (state === 'playing') { if (e.code === 'KeyR') unstick(); else if (e.code === 'KeyG') { placeAtSpawn(); flash(); } }
   });
-  document.addEventListener('visibilitychange', () => { if (document.hidden && state === 'playing') togglePause(); });
+  document.addEventListener('visibilitychange', () => { if (document.hidden && (state === 'playing' || state === 'countdown')) togglePause(); });
 }
 
 /* =====================================================================
    12. MAIN LOOP  (physics in small fixed steps, then draw)
    ===================================================================== */
 const sp0 = roadPoint(0);
-car.x = sp0.x; car.z = sp0.z; car.yaw = Math.atan2(sp0.tx, sp0.tz);
-updateWorld(car.x, car.z, undefined, 1);                // build the ground right around the car before the first frame
-car.y = groundH(car.x, car.z); car.gcPrev = car.y;
+car.x = sp0.x; car.z = sp0.z; car.yaw = Math.atan2(sp0.tx, sp0.tz); car.y = groundH(car.x, car.z); car.gcPrev = car.y;
 cam.yaw = car.yaw; cam.fx = car.x; cam.fy = car.y; cam.fz = car.z;
 resize();
 
@@ -5184,9 +5085,9 @@ function frame(now) {
   requestAnimationFrame(frame);
   const dt = Math.min(0.1, (now - last) / 1000); last = now; time += dt;
   if (state === 'playing') readInput(); else { inp.throttle = inp.brake = inp.steer = 0; inp.hand = false; }
-  if (state === 'playing') { acc += dt; while (acc >= FIXED) { stepCar(FIXED); acc -= FIXED; } } else acc = 0;
-  updateWorld(car.x, car.z, 5);                         // stream in new ground ahead (max 5 ms per frame)
+  if (state === 'playing' || state === 'ended') { acc += dt; while (acc >= FIXED) { stepCar(FIXED); acc -= FIXED; } } else acc = 0;
 
+  // put the 3D car where the physics says it is
   carRoot.position.set(car.x, car.y, car.z);
   carRoot.rotation.set(car.pitch, car.yaw, car.roll);
   leanGroup.position.y = car.heave;
@@ -5201,20 +5102,20 @@ function frame(now) {
 
   updateEffects(dt);
   if (state === 'title') titleCamera(time); else updateCamera(dt);
-  updateSummit(dt, time); checkSummit();
+  gameTick(dt, time);
   sound.update(dt);
   updateHud();
 
+  // sun + shadows follow the car; sky follows the camera
   sun.position.set(car.x + SUN_DIR.x * 60, car.y + SUN_DIR.y * 60, car.z + SUN_DIR.z * 60); sun.target.position.set(car.x, car.y, car.z);
   sky.position.copy(camera.position);
   sunDisc.position.copy(camera.position).addScaledVector(SUN_DIR, 420); sunDisc.lookAt(camera.position);
-  water.position.set(Math.round(camera.position.x / 8) * 8, WL, Math.round(camera.position.z / 8) * 8); waterTex.offset.set(time * 0.012, time * 0.008);
-  clouds.position.set(camera.position.x + Math.sin(time * 0.02) * 70, 0, camera.position.z);
+  clouds.position.x = Math.sin(time * 0.02) * 70;   // slow drift
 
   renderer.setRenderTarget(rt); renderer.render(scene, camera);
   renderer.setRenderTarget(null); postMat.uniforms.tDiffuse.value = rt.texture; renderer.render(postScene, postCam);
 }
-window.__game = { WL, LK, RING, ringDist, lakeAmount, ringRange, surfH, car, inp, keys, TUNE, scene, camera, stepCar, groundH, heightAt, roadPoint, spiralPoint, SP, MTN, CONN, chunks, updateWorld, startGame, getState: () => state, placeAtSpawn, surfaceAt };
+window.__game = { car, inp, keys, TUNE, scene, camera, stepCar, resetCar, groundH, roadPoint, roadDist, H, buckets, game, stars, startGame, endGame, getState: () => state, collectStar };      // handy for experimenting in the browser console
 initGameUI();
 requestAnimationFrame(t => { last = t; frame(t); });
 })();
