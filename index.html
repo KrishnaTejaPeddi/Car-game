@@ -87,7 +87,7 @@
     <kbd>SPACE</kbd> HANDBRAKE: DRIFT<br>
     <kbd>R</kbd> UNSTICK &nbsp; <kbd>G</kbd> BACK TO START<br>
     <kbd>ESC</kbd> PAUSE &nbsp; <kbd>P</kbd> PIXEL SIZE &nbsp; <kbd>M</kbd> SOUND<br><br>
-    THE WORLD NEVER ENDS. MOUNTAINS ENCIRCLE THE START, LAKES ARE SCATTERED AROUND (YOU CAN DRIVE THROUGH WATER, SLOWLY), AND A HUGE MOUNTAIN SITS TO THE WEST: FOLLOW THE GRAVEL ROAD UP, OR LOOK FOR THE BEAM OF LIGHT.
+    THE WORLD NEVER ENDS. MOUNTAINS ENCIRCLE THE START, LAKES ARE SCATTERED AROUND (YOU CAN DRIVE THROUGH WATER, SLOWLY), AND A HUGE MOUNTAIN SITS TO THE WEST: FOLLOW THE GRAVEL ROAD UP, OR LOOK FOR THE BEAM OF LIGHT. AT THE TOP, THIN BRIDGES SPAN DEEP GORGES TO THREE MORE PEAKS: DONT FALL!
     <div style="text-align:center;margin-top:calc(var(--u)*1.5)"><button class="btn" id="btnHowClose" tabindex="-1">GOT IT</button></div>
   </div>
   <div class="menuBox" style="z-index:2">
@@ -4108,7 +4108,8 @@ const ROAD_HALF = 7, TAU = Math.PI * 2;
 const WL = -3;                                          // water level (metres)
 const WSURF = WL - 0.25;                                // height the car floats at on water
 const LK = { x: 90, z: -10, R: 72 };                    // the big lake inside the road loop
-const RING = { c: 410, hw: 130, H: 80 };                // the mountain range that circles the start area
+const RING = { c: 410, hw: 130, H: 80 };
+const PEAK_R = 20, GORGE = 75;                           // the three side peaks (radius) and how deep the gorges under the bridges are                // the mountain range that circles the start area
 
 // ---- the ring road (a wobbly circle round the middle of the map)
 const roadR  = t => 215 + 38 * Math.sin(2 * t + 0.6) + 16 * Math.sin(3 * t + 2.1);
@@ -4174,7 +4175,7 @@ function connQuery(x, z, out) {
 // ---- jump ramps baked into the ground height
 const mkRamp = (x, z, tx, tz, len, hw, h) => ({ x, z, tx, tz, nx: tz, nz: -tx, len, hw, h });
 const RAMPS = [0.9, 2.3, 3.7, 5.0].map(t => { const p = roadPoint(t); return mkRamp(p.x, p.z, p.tx, p.tz, 17, 5.2, 4.4); });
-const SUMMIT_ANGLE = SP.t0 + SP.T + Math.PI;           // a huge jump off the summit, pointing away from where the road arrives
+const SUMMIT_ANGLE = 225 / 57.29578;           // a huge jump off the summit, pointing away from where the road arrives
 RAMPS.push(mkRamp(MTN.x + Math.cos(SUMMIT_ANGLE) * 34, MTN.z + Math.sin(SUMMIT_ANGLE) * 34, Math.cos(SUMMIT_ANGLE), Math.sin(SUMMIT_ANGLE), 14, 5.5, 3.4));
 function rampInfo(x, z, out) {
   out.h = 0; out.u = 0;
@@ -4204,6 +4205,44 @@ function lakeAmount(x, z, rM) {
   return Math.max(a * smoothstep(15, 45, Math.abs(ringDist(x, z))), far);      // never wet the ring road
 }
 
+// ---- three more peaks around the summit, joined by long thin bridges over deep gorges
+const deg = d => d / 57.29578;
+const PEAKS = [345, 30, 75].map(a => ({ a: deg(a), x: MTN.x + Math.cos(deg(a)) * 115, z: MTN.z + Math.sin(deg(a)) * 115 }));
+const BRIDGES = (() => {
+  const P = PEAKS, rim = (a, r) => ({ x: MTN.x + Math.cos(a) * r, z: MTN.z + Math.sin(a) * r });
+  const toward = (p, q, d) => { const dx = q.x - p.x, dz = q.z - p.z, l = Math.hypot(dx, dz); return { x: p.x + dx / l * d, z: p.z + dz / l * d }; };
+  const e = PEAK_R - 2;
+  return [
+    { a: rim(P[0].a, 47), b: toward(P[0], MTN, e), w: 3.6 },          // summit  -> peak 1
+    { a: toward(P[0], P[1], e), b: toward(P[1], P[0], e), w: 3.0 },   // peak 1  -> peak 2
+    { a: toward(P[1], P[2], e), b: toward(P[2], P[1], e), w: 3.0 },   // peak 2  -> peak 3
+    { a: toward(P[2], MTN, e), b: rim(P[2].a, 47), w: 3.6 }           // peak 3  -> summit
+  ];
+})();
+RAMPS.push(mkRamp(PEAKS[2].x + Math.cos(PEAKS[2].a) * 4, PEAKS[2].z + Math.sin(PEAKS[2].a) * 4, Math.cos(PEAKS[2].a), Math.sin(PEAKS[2].a), 16, 5.5, 3.6));   // a big jump off peak 3
+function segDist(x, z, s) {
+  const dx = s.b.x - s.a.x, dz = s.b.z - s.a.z, t = clamp(((x - s.a.x) * dx + (z - s.a.z) * dz) / (dx * dx + dz * dz), 0, 1);
+  return Math.hypot(x - (s.a.x + dx * t), z - (s.a.z + dz * t));
+}
+function gorgeW(x, z, rM) {                             // 1 right under a bridge, fading to 0 at the sides and at the peaks
+  if (rM > 200) return 0;
+  let w = 0;
+  for (const s of BRIDGES) { const d = segDist(x, z, s); if (d < 22) w = Math.max(w, 1 - smoothstep(9, 22, d)); }
+  if (w <= 0) return 0;
+  w *= smoothstep(MTN.Rp, MTN.Rp + 10, rM);
+  for (const p of PEAKS) w *= smoothstep(PEAK_R - 2, PEAK_R + 8, Math.hypot(x - p.x, z - p.z));
+  return w;
+}
+function summitComplex(x, z, rM, h) {
+  if (rM > 200) return h;
+  h -= gorgeW(x, z, rM) * GORGE;
+  for (const p of PEAKS) { const d = Math.hypot(x - p.x, z - p.z), w = 1 - smoothstep(PEAK_R, PEAK_R + 14, d); if (w > 0) h += (MTN.H - h) * w; }   // raise each peak into a flat-topped tower
+  return h;
+}
+const inGorge = (x, z) => { for (const s of BRIDGES) if (segDist(x, z, s) < 26) return true; return false; };
+const onPlateau = (x, z) => { if (Math.hypot(x - MTN.x, z - MTN.z) < MTN.Rp - 3) return true; for (const p of PEAKS) if (Math.hypot(x - p.x, z - p.z) < PEAK_R - 3) return true; return false; };
+const SAFE = { x: 0, z: 0, yaw: 0, set: false };        // the last plateau you stood on (where you restart after a fall)
+
 // ---- THE height of the ground at any point in the world
 function heightAt(x, z) {
   let base = hills(x, z);
@@ -4219,8 +4258,9 @@ function heightAt(x, z) {
   h += ringRange(x, z, rM);
   const lk = lakeAmount(x, z, rM);
   if (lk > 0) h += ((WL - 2.5 - 5 * lk) - h) * lk;      // dig the lake basin
+  h = summitComplex(x, z, rM, h);
   spiralQuery(x, z, _q1);
-  if (_q1.d < SP.half + 10) h += (_q1.hc - h) * (1 - smoothstep(SP.half + 1.5, SP.half + 10, _q1.d));    // carve the mountain road into the slope
+  if (_q1.d < SP.half + 10) h += (_q1.hc - h) * (1 - smoothstep(SP.half + 1.5, SP.half + 10, _q1.d)) * smoothstep(MTN.Rp + 1, MTN.Rp + 8, rM);    // carve the mountain road into the slope
   connQuery(x, z, _q2);
   if (_q2.d < CONN.half + 24) h += (_q2.hc - h) * (1 - smoothstep(CONN.half + 1.5, CONN.half + 24, _q2.d));
   return h + rampInfo(x, z, _ri);
@@ -4240,11 +4280,32 @@ function groundH(x, z) {                 // physics + visuals both use this: exa
   return h11 + (h01 - h11) * (1 - tx) + (h10 - h11) * (1 - tz);
 }
 const surfH = (x, z) => Math.max(groundH(x, z), WSURF);       // the ground, or the water surface if there is a lake here
+// Bridges are too thin for the ground grid, so they are separate solid rectangles the car can stand on.
+// A deck only holds the car up if the car is at (or just above) deck height, so you can fall off the side or drive under one.
+const DECKS = [];
+function addDeck(ax, az, bx, bz, w, y) { const dx = bx - ax, dz = bz - az, len = Math.hypot(dx, dz); DECKS.push({ x: (ax + bx) / 2, z: (az + bz) / 2, ux: dx / len, uz: dz / len, hl: len / 2, hw: w / 2, y }); }
+function deckAt(x, z, yRef) {
+  if (Math.abs(x - MTN.x) > 200 || Math.abs(z - MTN.z) > 200) return -1e9;
+  let best = -1e9;
+  for (const d of DECKS) {
+    const dx = x - d.x, dz = z - d.z;
+    if (Math.abs(dx * d.ux + dz * d.uz) > d.hl || Math.abs(-dx * d.uz + dz * d.ux) > d.hw) continue;
+    if (d.y <= yRef + 1.5 && d.y > best) best = d.y;
+  }
+  return best;
+}
+function deckNear(x, z) {
+  if (Math.abs(x - MTN.x) > 200 || Math.abs(z - MTN.z) > 200) return false;
+  for (const d of DECKS) { const dx = x - d.x, dz = z - d.z; if (Math.abs(dx * d.ux + dz * d.uz) <= d.hl + 4 && Math.abs(-dx * d.uz + dz * d.ux) <= d.hw + 4) return true; }
+  return false;
+}
+const deckOver = (x, z) => deckAt(x, z, 1e9) > -1e8;
+const surfHy = (x, z, y) => Math.max(groundH(x, z), WSURF, deckAt(x, z, y));
 function slopeAt(x, z) { const a = (groundH(x + 1.5, z) - groundH(x - 1.5, z)) / 3, b = (groundH(x, z + 1.5) - groundH(x, z - 1.5)) / 3; return Math.hypot(a, b); }
 
 const _surf = { road: 1, gravel: 0, water: 0, grip: 1, drive: 1, roll: 1, brake: 1 };
 function surfaceAt(x, z) {               // tarmac grips, gravel slides a bit, grass is slippery and draggy
-  const tar = 1 - smoothstep(ROAD_HALF, ROAD_HALF + 2.5, Math.abs(ringDist(x, z)));
+  const tar = Math.max(1 - smoothstep(ROAD_HALF, ROAD_HALF + 2.5, Math.abs(ringDist(x, z))), deckOver(x, z) ? 1 : 0);
   spiralQuery(x, z, _q1); connQuery(x, z, _q2);
   const gr = 1 - smoothstep(SP.half, SP.half + 2.5, Math.min(_q1.d, _q2.d));
   const any = Math.max(tar, gr);
@@ -4387,6 +4448,8 @@ function paintTri(mx, my, mz, steep, rn, rn2) {
   else if (my < WL - 3) _c.setHex(0x2f6f8e);                                                    // deep lake bed
   else if (my < WL - 0.5) _c.setHex(rn > 0.5 ? 0x4f8fa0 : 0x5a9aa6);                           // shallow lake bed
   else if (my < WL + 1.1) _c.setHex(rn > 0.5 ? 0xd9c98a : 0xcdbd7c);                           // beach
+  else if (rM < 240 && my < MTN.H - 40 && gorgeW(mx, mz, rM) > 0.7) _c.setHex(rn > 0.5 ? 0xe8561c : 0xc9431a);   // glowing lava deep in the gorges
+  else if (my > MTN.H - 4 && PEAKS.some(p => Math.hypot(mx - p.x, mz - p.z) < PEAK_R + 6)) _c.setHex(rn > 0.5 ? 0x7d849a : 0x727a90);   // peak tops
   else if (rM < MTN.Rp + 8) _c.setHex(rn > 0.5 ? 0x7d849a : 0x727a90);                       // summit stone
   else if (my > 105) _c.setHex(rn > 0.3 ? 0xc6d2e0 : 0xb7c4d4);                                // snow
   else if (my > 70 || steep > 0.62) _c.setHex(rn > 0.5 ? 0x8c8f98 : 0x7b7e88);                // bare rock
@@ -4493,7 +4556,7 @@ function nearColliders(px, pz, out) {
   out.length = 0;
   const a = Math.floor((px - 6) / CHUNK), b = Math.floor((px + 6) / CHUNK), c0 = Math.floor((pz - 6) / CHUNK), d0 = Math.floor((pz + 6) / CHUNK);
   for (let cx = a; cx <= b; cx++) for (let cz = c0; cz <= d0; cz++) { const c = chunks.get(CKEY(cx, cz)); if (c) for (const o of c.colliders) out.push(o); }
-  if (Math.hypot(px - MTN.x, pz - MTN.z) < 70) for (const o of summitColliders) out.push(o);
+  if (Math.hypot(px - MTN.x, pz - MTN.z) < 190) for (const o of summitColliders) out.push(o);
   return out;
 }
 const summitColliders = [], _nc = [];
@@ -4547,6 +4610,57 @@ const SUM = { crystal: null, inner: null, shards: [], flames: [], beams: [] };
   // the beam of light you can see from miles away
   const beam = (r0, r1, op) => { const m = new THREE.Mesh(new THREE.CylinderGeometry(r1, r0, 900, 10, 1, true), new THREE.MeshBasicMaterial({ color: 0x9ff6ff, transparent: true, opacity: op, depthWrite: false, fog: false, side: THREE.DoubleSide })); m.frustumCulled = false; place(m, 0, 450, 0); SUM.beams.push(m); };
   beam(3.4, 2.6, 0.28); beam(1.4, 1.1, 0.55);
+
+  // ---- THE PEAKS AND THE LONG THIN BRIDGES between them
+  const peakCol = [0x6cf0ff, 0xff5fd8, 0xffd23c], peakEm = [0x2288aa, 0xaa2a90, 0xaa8a10];
+  const woodM = lam(0x8a6a45), darkM = lam(0x5b4129), ropeM = lam(0xd9c9a0), glowM = new THREE.MeshBasicMaterial({ color: 0x6cf0ff });
+  const slats = [], postsL = [];
+  for (const br of BRIDGES) {
+    addDeck(br.a.x, br.a.z, br.b.x, br.b.z, br.w, Y);
+    const dx = br.b.x - br.a.x, dz = br.b.z - br.a.z, len = Math.hypot(dx, dz), ry = Math.atan2(dx, dz), c = Math.cos(ry), s = Math.sin(ry), cx = (br.a.x + br.b.x) / 2, cz = (br.a.z + br.b.z) / 2, w = br.w;
+    const add = (mat, sx, sy, sz, ox, oy, oz, cast) => { const m = new THREE.Mesh(boxG, mat); m.scale.set(sx, sy, sz); m.rotation.y = ry; m.position.set(cx + ox * c + oz * s, Y + oy, cz - ox * s + oz * c); m.castShadow = !!cast; m.receiveShadow = true; summit.add(m); };
+    add(woodM, w, 0.3, len, 0, -0.11, 0, true); add(darkM, w * 0.4, 0.8, len, 0, -0.65, 0, true);
+    add(glowM, 0.14, 0.05, len, w / 2 - 0.12, 0.06, 0); add(glowM, 0.14, 0.05, len, -(w / 2 - 0.12), 0.06, 0);
+    add(ropeM, 0.07, 0.07, len, w / 2 + 0.1, 1.0, 0); add(ropeM, 0.07, 0.07, len, -(w / 2 + 0.1), 1.0, 0);
+    for (let p = 0.8; p < len; p += 1.3) slats.push({ x: cx + (p - len / 2) * s, z: cz + (p - len / 2) * c, ry, w });
+    for (let p = 1.5; p < len; p += 4) for (const side of [-1, 1]) { const ox = side * (w / 2 + 0.1), oz = p - len / 2; postsL.push({ x: cx + ox * c + oz * s, z: cz - ox * s + oz * c }); }
+    for (const end of [-1, 1]) {               // gate frame at each end of the bridge
+      for (const side of [-1, 1]) { add(darkM, 0.5, 7, 0.5, side * (w / 2 + 0.6), 3.5, end * (len / 2 - 0.8), true); add(glowM, 0.8, 0.3, 0.8, side * (w / 2 + 0.6), 7.1, end * (len / 2 - 0.8)); }
+      add(darkM, w + 1.7, 0.4, 0.5, 0, 6.9, end * (len / 2 - 0.8), true);
+    }
+  }
+  const dummy = new THREE.Object3D();
+  const slatMesh = new THREE.InstancedMesh(boxG, darkM, slats.length);
+  slats.forEach((o, i) => { dummy.position.set(o.x, Y + 0.1, o.z); dummy.rotation.set(0, o.ry, 0); dummy.scale.set(o.w - 0.1, 0.06, 0.6); dummy.updateMatrix(); slatMesh.setMatrixAt(i, dummy.matrix); });
+  slatMesh.receiveShadow = true; slatMesh.frustumCulled = false; summit.add(slatMesh);
+  const postMesh = new THREE.InstancedMesh(boxG, darkM, postsL.length);
+  postsL.forEach((o, i) => { dummy.position.set(o.x, Y + 0.55, o.z); dummy.rotation.set(0, 0, 0); dummy.scale.set(0.2, 1.1, 0.2); dummy.updateMatrix(); postMesh.setMatrixAt(i, dummy.matrix); });
+  postMesh.castShadow = true; postMesh.frustumCulled = false; summit.add(postMesh);
+
+  SUM.pcrystals = []; SUM.pflames = [];
+  PEAKS.forEach((p, i) => {
+    const g = new THREE.Group(); g.position.set(p.x, Y, p.z); summit.add(g);
+    const disc = new THREE.Mesh(new THREE.CylinderGeometry(PEAK_R - 1.5, PEAK_R - 1.5, 0.06, 32), lam(0x4a5272)); disc.position.y = 0.03; disc.receiveShadow = true; g.add(disc);
+    const ring = new THREE.Mesh(new THREE.RingGeometry(10, 11, 40), new THREE.MeshBasicMaterial({ color: peakCol[i], side: THREE.DoubleSide })); ring.rotation.x = -Math.PI / 2; ring.position.y = 0.1; g.add(ring);
+    const bm = new THREE.Mesh(new THREE.CylinderGeometry(1.6, 2.2, 700, 8, 1, true), new THREE.MeshBasicMaterial({ color: peakCol[i], transparent: true, opacity: 0.3, depthWrite: false, fog: false, side: THREE.DoubleSide })); bm.position.y = 350; bm.frustumCulled = false; g.add(bm);
+    const col = (dx, dz, r) => summitColliders.push({ t: 0, x: p.x + dx, z: p.z + dz, r, e: 0.3 });
+    const put = (m, x, y, z) => { m.position.set(x, y, z); m.castShadow = true; g.add(m); return m; };
+    if (i === 0) {                              // peak 1: a glowing obelisk with four low pillars
+      const ob = new THREE.Mesh(boxG, lam(0x8a90a0)); ob.scale.set(3, 18, 3); put(ob, 0, 9, 0);
+      const cap = new THREE.Mesh(boxG, lam(peakCol[0], peakEm[0])); cap.scale.set(3.6, 1.2, 3.6); put(cap, 0, 18.4, 0);
+      for (let k = 0; k < 4; k++) { const a = Math.PI / 4 + k * Math.PI / 2, pl = new THREE.Mesh(boxG, lam(0x8a90a0)); pl.scale.set(1.6, 4, 1.6); put(pl, Math.cos(a) * 9, 2, Math.sin(a) * 9); col(Math.cos(a) * 9, Math.sin(a) * 9, 1.3);
+        const gl = new THREE.Mesh(boxG, new THREE.MeshBasicMaterial({ color: peakCol[0] })); gl.scale.set(0.3, 3.2, 0.1); gl.position.set(Math.cos(a) * 9, 2, Math.sin(a) * 9 - 0.85); g.add(gl); }
+      col(0, 0, 2.6);
+    } else if (i === 1) {                       // peak 2: a ring of columns around a fire
+      for (let k = 0; k < 8; k++) { const a = k / 8 * TAU, cy = new THREE.Mesh(new THREE.CylinderGeometry(0.9, 1.0, 8, 8), lam(0x9aa1b3)); put(cy, Math.cos(a) * 14, 4, Math.sin(a) * 14); col(Math.cos(a) * 14, Math.sin(a) * 14, 1.2);
+        const cp = new THREE.Mesh(boxG, lam(peakCol[1], peakEm[1])); cp.scale.set(1.5, 0.4, 1.5); put(cp, Math.cos(a) * 14, 8.2, Math.sin(a) * 14); }
+      const br = new THREE.Mesh(new THREE.CylinderGeometry(1.8, 1.3, 1.4, 8), lam(0x3b4260)); put(br, 0, 0.7, 0); col(0, 0, 2);
+      const fl = new THREE.Mesh(boxG, new THREE.MeshBasicMaterial({ color: 0xff9a2a })); fl.scale.set(1.4, 2, 1.4); fl.position.set(0, 2.4, 0); g.add(fl); SUM.pflames.push(fl);
+    } else {                                    // peak 3: a floating golden crystal
+      const pl = new THREE.Mesh(new THREE.CylinderGeometry(4, 5, 1, 12), lam(0x2b3350)); put(pl, 0, 0.5, 0); col(0, 0, 5);
+      const cr = new THREE.Mesh(new THREE.OctahedronGeometry(2.4, 0), new THREE.MeshLambertMaterial({ color: peakCol[2], emissive: peakEm[2], flatShading: true })); cr.scale.set(1, 1.8, 1); cr.position.set(0, 6, 0); g.add(cr); SUM.pcrystals.push(cr);
+    }
+  });
 })();
 
 // far-away copies of the mountains use this: they match the fog colour right where the real ground ends,
@@ -4558,7 +4672,7 @@ function hazeMat() {
     sh.uniforms.uCam = hazeU.uCam; sh.uniforms.uHaze = hazeU.uHaze;
     sh.vertexShader = sh.vertexShader.replace('#include <common>', '#include <common>\nvarying vec3 vWP;').replace('#include <begin_vertex>', '#include <begin_vertex>\nvWP = (modelMatrix * vec4(transformed, 1.0)).xyz;');
     sh.fragmentShader = sh.fragmentShader.replace('#include <common>', '#include <common>\nvarying vec3 vWP; uniform vec3 uCam; uniform vec3 uHaze;')
-      .replace('#include <dithering_fragment>', '#include <dithering_fragment>\n float hd = distance(vWP.xz, uCam.xz); gl_FragColor.rgb = mix(uHaze, gl_FragColor.rgb, 0.75 * smoothstep(470.0, 800.0, hd));');
+      .replace('#include <dithering_fragment>', '#include <dithering_fragment>\n float hd = distance(vWP.xz, uCam.xz); if (hd < 460.0) discard; gl_FragColor.rgb = mix(uHaze, gl_FragColor.rgb, 0.75 * smoothstep(470.0, 800.0, hd));');
   };
   return m;
 }
@@ -4591,7 +4705,7 @@ water.rotation.x = -Math.PI / 2; water.position.y = WL; water.renderOrder = 1; w
   const SEG = 120, RAD = 28, r0 = RING.c - RING.hw - 10, r1 = RING.c + RING.hw + 10, pos = [], col = [], idx = [], hz = new THREE.Color(HORIZON), c = new THREE.Color();
   for (let i = 0; i <= SEG; i++) for (let j = 0; j <= RAD; j++) {
     const a = i / SEG * TAU, r = r0 + (r1 - r0) * j / RAD, x = Math.cos(a) * r, z = Math.sin(a) * r;
-    const h = ringRange(x, z, 1e9) - 20; pos.push(x, h, z);
+    const h = ringRange(x, z, Math.hypot(x - MTN.x, z - MTN.z)) - 20; pos.push(x, h, z);
     const y = h + 20; c.setHex(y > 105 ? 0xc6d2e0 : y > 40 ? 0x8c8f98 : y > 12 ? 0x6f8e40 : 0x5fa83f);  col.push(c.r, c.g, c.b);
   }
   for (let i = 0; i < SEG; i++) for (let j = 0; j < RAD; j++) { const a = i * (RAD + 1) + j, b = a + RAD + 1; idx.push(a, b, a + 1, a + 1, b, b + 1); }
@@ -4607,6 +4721,8 @@ function updateSummit(dt, time) {
   SUM.shards.forEach((s, i) => { const a = time * 0.6 + i / 6 * TAU, r = 7 + Math.sin(time + i) * 0.8; s.position.set(MTN.x + Math.cos(a) * r, Y + Math.sin(time * 1.3 + i * 2) * 2.2, MTN.z + Math.sin(a) * r); s.rotation.y += dt * 2; });
   SUM.flames.forEach((f, i) => { f.scale.y = 0.8 + 0.5 * Math.abs(Math.sin(time * 9 + i * 3)); f.position.y = MTN.H + 1.5 + f.scale.y * 0.5; f.rotation.y = time * 3; });
   SUM.beams[0].material.opacity = 0.24 + 0.06 * Math.sin(time * 2);
+  SUM.pcrystals.forEach(m => { m.rotation.y += dt * 1.1; m.position.y = 6 + Math.sin(time * 1.5) * 0.5; });
+  SUM.pflames.forEach((f, i) => { f.scale.y = 1.6 + 0.8 * Math.abs(Math.sin(time * 9 + i)); f.position.y = 1.4 + f.scale.y * 0.5; });
   const d = Math.hypot(car.x - MTN.x, car.z - MTN.z);
   if (d < 160 && Math.random() < dt * 22) {
     const a = Math.random() * TAU, r = 2 + Math.random() * 30;
@@ -4825,7 +4941,8 @@ function stepCar(dt) {
     res = Math.min(res, Math.abs(vf) / dt);
     aL -= Math.sign(vf) * res;
     // hills: gravity pulls you down the slope
-    const gx = (surfH(c.x + 0.8, c.z) - surfH(c.x - 0.8, c.z)) / 1.6, gz = (surfH(c.x, c.z + 0.8) - surfH(c.x, c.z - 0.8)) / 1.6;
+    const onDeck = deckNear(c.x, c.z), sh = (x, z) => { const h = surfHy(x, z, c.y); return onDeck && h < c.y - 1.2 ? c.y : h; };   // a drop beside a bridge is not a 'slope'
+    const gx = (sh(c.x + 0.8, c.z) - sh(c.x - 0.8, c.z)) / 1.6, gz = (sh(c.x, c.z + 0.8) - sh(c.x, c.z - 0.8)) / 1.6;
     c.vx += (fx * aL - T.SLOPE_G * gx) * dt; c.vz += (fz * aL - T.SLOPE_G * gz) * dt;
 
     // ---- sideways grip: this is the heart of the feel.
@@ -4864,6 +4981,8 @@ function stepCar(dt) {
   c.x += c.vx * dt; c.z += c.vz * dt;
   collide();
   updateVertical(dt);
+  if (c.y > MTN.H - 1.5 && c.grounded && onPlateau(c.x, c.z)) { SAFE.x = c.x; SAFE.z = c.z; SAFE.yaw = c.yaw; SAFE.set = true; }     // remember the last plateau you stood on
+  if (c.y < MTN.H - 14 && inGorge(c.x, c.z)) fellOff();                                                                    // fell off a bridge
 
   // ---- body wobble (weight transfer): springs that chase the forces
   const tRoll = clamp(c.aLat * 0.0075, -0.12, 0.12), tPitch = clamp(-c.aLong * 0.0055, -0.1, 0.1);
@@ -4880,13 +4999,20 @@ function updateVertical(dt) {
   const c = car, sy = Math.sin(c.yaw), cy = Math.cos(c.yaw), hl = TUNE.WHEELBASE / 2, hw = TUNE.TRACK / 2;
   const lx = cy, lz = -sy;                                      // car's left
   const px = (f, s) => c.x + sy * hl * f + lx * hw * s, pz = (f, s) => c.z + cy * hl * f + lz * hw * s;
-  const hFL = surfH(px(1, 1), pz(1, 1)), hFR = surfH(px(1, -1), pz(1, -1)), hRL = surfH(px(-1, 1), pz(-1, 1)), hRR = surfH(px(-1, -1), pz(-1, -1));
-  const hF = (hFL + hFR) / 2, hR = (hRL + hRR) / 2, gc = (hF + hR) / 2;
+  const y0 = c.y, nearTop = deckNear(c.x, c.z);
+  let hFL = surfHy(px(1, 1), pz(1, 1), y0), hFR = surfHy(px(1, -1), pz(1, -1), y0), hRL = surfHy(px(-1, 1), pz(-1, 1), y0), hRR = surfHy(px(-1, -1), pz(-1, -1), y0), gc;
+  if (nearTop) {                          // on a bridge, a wheel hanging over the edge doesn't count as ground (you need 2 wheels on the planks)
+    let sum = 0, n = 0; for (const h of [hFL, hFR, hRL, hRR]) if (h >= y0 - 0.9) { sum += h; n++; }
+    gc = n >= 2 ? sum / n : (hFL + hFR + hRL + hRR) / 4;
+    const lo = y0 - 0.9; hFL = Math.max(hFL, lo); hFR = Math.max(hFR, lo); hRL = Math.max(hRL, lo); hRR = Math.max(hRR, lo);
+  }
+  const hF = (hFL + hFR) / 2, hR = (hRL + hRR) / 2; if (!nearTop) gc = (hF + hR) / 2;
   const vyOld = c.vy;
   c.vy -= TUNE.GRAVITY * dt;
   c.y += c.vy * dt;
   if (c.y <= gc + 0.02) {
-    const groundRate = clamp((gc - c.gcPrev) / dt, -40, 40);
+    let groundRate = clamp((gc - c.gcPrev) / dt, -40, 40);
+    if (Math.abs(gc - c.gcPrev) > 1.2) groundRate = 0;                     // the 'ground' jumped (landed on a bridge): no launch
     if (!c.grounded) {                                           // we just landed
       const impact = -(c.vy - groundRate);
       if (impact > 3) onLanding(impact);
@@ -4952,7 +5078,7 @@ function skidPoint(i, x, z, on) {
   const dx = x - pv.x, dz = z - pv.z, len = Math.hypot(dx, dz);
   if (len < 0.3) return;
   if (len > 4) { pv.x = x; pv.z = z; return; }
-  const ox = -dz / len * 0.16, oz = dx / len * 0.16, y0 = groundH(pv.x, pv.z) + 0.08, y1 = groundH(x, z) + 0.08;
+  const ox = -dz / len * 0.16, oz = dx / len * 0.16, y0 = surfHy(pv.x, pv.z, car.y) + 0.08, y1 = surfHy(x, z, car.y) + 0.08;
   const v = [pv.x + ox, y0, pv.z + oz, pv.x - ox, y0, pv.z - oz, x + ox, y1, z + oz, pv.x - ox, y0, pv.z - oz, x - ox, y1, z - oz, x + ox, y1, z + oz];
   skidArr.set(v, skidHead * 18); skidHead = (skidHead + 1) % SKID_SEG; skidAttr.needsUpdate = true;
   pv.x = x; pv.z = z;
@@ -4984,7 +5110,7 @@ function updateEffects(dt) {
   if (c.grounded && dustTimer > 0.025) {
     dustTimer = 0;
     for (let i = 0; i < 2; i++) {
-      const gy = groundH(rearX[i], rearZ[i]) + 0.2;
+      const gy = surfHy(rearX[i], rearZ[i], c.y) + 0.2;
       if (sk > 0.25 && onRoad) spawnP(rearX[i], gy, rearZ[i], (Math.random() - .5) * 1.5 - c.vx * 0.1, 0.8 + Math.random(), (Math.random() - .5) * 1.5 - c.vz * 0.1, 0.7, 0.36, 0xe6e6ea, -0.3, 1.3);
       else if ((!onRoad || surf.gravel > 0.5) && speed > 5 && Math.random() < clamp(speed / 22, 0.2, 1) * (surf.gravel > 0.5 ? 0.4 : 1)) spawnP(rearX[i], gy, rearZ[i], (Math.random() - .5) * 1.5, 0.6 + Math.random() * 1.2, (Math.random() - .5) * 1.5, 0.5, 0.28, 0xb7a672, -0.3, 1.0);
     }
@@ -5150,11 +5276,21 @@ function togglePause() {
   if (state === 'playing') { state = 'paused'; $('pause').classList.remove('hidden'); if (sound.ctx) sound.ctx.suspend(); }
   else if (state === 'paused') { state = 'playing'; $('pause').classList.add('hidden'); if (sound.ctx) sound.ctx.resume(); }
 }
+function fellOff() {
+  const c = car;
+  const P = SAFE.set ? SAFE : (() => { const q = spiralPoint(SP.T - 0.4); return { x: q.x, z: q.z, yaw: Math.atan2(q.tx, q.tz) }; })();
+  c.x = P.x; c.z = P.z; c.yaw = P.yaw; c.vx = c.vz = c.vy = c.yawRate = 0; c.y = groundH(c.x, c.z); c.gcPrev = c.y;
+  c.pitch = c.roll = 0; c.grounded = true; c.sliding = false; c.steerCmd = 0; c.leanRoll = c.leanRollV = c.leanPitch = c.leanPitchV = c.heave = c.heaveV = 0;
+  cam.yaw = c.yaw; cam.fx = c.x; cam.fy = c.y; cam.fz = c.z;
+  flash(); toast('YOU FELL!'); sound.lose();
+}
+const peakSeen = [false, false, false];
 let summitShown = false;
 function checkSummit() {
   const d = Math.hypot(car.x - MTN.x, car.z - MTN.z);
   if (!summitShown && state === 'playing' && d < 45 && car.y > MTN.H - 5) { summitShown = true; toast('SUMMIT REACHED!'); sound.win(); }
-  else if (d > 220) summitShown = false;
+  else if (d > 260) { summitShown = false; peakSeen.fill(false); }
+  if (state === 'playing') PEAKS.forEach((p, i) => { if (!peakSeen[i] && Math.hypot(car.x - p.x, car.z - p.z) < 20 && car.y > MTN.H - 4) { peakSeen[i] = true; toast('PEAK ' + (i + 1) + ' REACHED!'); sound.chime(true); } });
 }
 function titleCamera(time) {
   const a = time * 0.28 + 0.6, r = 7.6;
@@ -5223,7 +5359,7 @@ function frame(now) {
   renderer.setRenderTarget(rt); renderer.render(scene, camera);
   renderer.setRenderTarget(null); postMat.uniforms.tDiffuse.value = rt.texture; renderer.render(postScene, postCam);
 }
-window.__game = { WL, LK, RING, ringDist, lakeAmount, ringRange, surfH, car, inp, keys, TUNE, scene, camera, stepCar, groundH, heightAt, roadPoint, spiralPoint, SP, MTN, CONN, chunks, updateWorld, startGame, getState: () => state, placeAtSpawn, surfaceAt };
+window.__game = { DECKS, deckAt, PEAKS, BRIDGES, SAFE, fellOff, WL, LK, RING, ringDist, lakeAmount, ringRange, surfH, car, inp, keys, TUNE, scene, camera, stepCar, groundH, heightAt, roadPoint, spiralPoint, SP, MTN, CONN, chunks, updateWorld, startGame, getState: () => state, placeAtSpawn, surfaceAt };
 initGameUI();
 requestAnimationFrame(t => { last = t; frame(t); });
 })();
